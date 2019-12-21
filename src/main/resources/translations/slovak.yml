@@ -51,75 +51,75 @@ commands:
     error_is_participating: "§cUž sa zúčastňujete tohto preteku."
     error_is_participating_other: "§cMomentálne ste sa zúčastnili už ďalšieho preteku."
     error_not_afford: "§cNemôžete si dovoliť zúčastniť sa tohto preteku. Poplatok za účasť je  <entry_fee> a vy máte <balance>."
-    error_game_mode: "§cYou can't join this race when in game mode `<game_mode>`."
+    error_game_mode: "§cNemôžete sa zúčastniť tohto preteku v hernom móde `<game_mode>`."
   race_skip_wait:
-    error_not_started: "§cRace must be started in order to skip preparing."
+    error_not_started: "§cPretek musí byť zahájený aby sa mohla preskočiť príprava."
   reload:
-    success: "§eConfiguration has been reloaded."
-    failed: "§cConfiguration couldn't be reloaded. Check the console for possible errors."
-    not_races: "§cRaces has not been reloaded because there are currently ongoing races."
-    races_failed: "§cRaces couldn't be reloaded. Error: <error>"
-    not_language: "§cLanguage has not been reloaded because the language `<language>` couldn't be found."
+    success: "§eKonfigurácia bola obnovená."
+    failed: "§cKonfiguráciu sa nepodarilo obnoviť. Skontrolujte konzolu pre možné chyby."
+    not_races: "§cPreteky neboli obnovené pretože práve prebiehajú niektoré z nich."
+    races_failed: "§cPreteky neboli obnovené. Chyba: <error>"
+    not_language: "§cJazykové súbory neboli obnovené pretože jazyk `<language>` nebol nájdený."
   race_set_state:
-    success: "§eState has been changed from `<old_state>` to `<new_state>`."
-    error_nochange: "§cState is already set to `<state>`."
-    error_ongoing: "§cThe race is ongoing and can't have it's state changed."
+    success: "§eStatus bol zmenený z `<old_state>` na `<new_state>`."
+    error_nochange: "§cStatus už je nastavený na `<state>`."
+    error_ongoing: "§cPretek práve prebieha a jeho status nemôže byť zmenený."
   race_help:
-    title: "§6§m----§r§6[ §eRacing Help §6]§m----"
+    title: "§6§m----§r§6[ §ePomoc pre Racing §6]§m----"
     item: "§e<text>"
   race_set_entryfee:
-    success: "§eEntry fee set to <entry_fee>."
+    success: "§ePoplatok pre účasť bol nastavený na <entry_fee>."
   race_set_walkspeed:
-    success: "§eWalk speed has been set to <walk_speed>."
+    success: "§eRýchlosť behu bola nastavená na <walk_speed>."
   race_set_pig_speed:
-    success: "§ePig speed has been set to <speed>."
+    success: "§eRýchlosť prasiat bola nastavená na <speed>."
   race_set_horse_speed:
-    success: "§eHorse speed has been set to <speed>."
+    success: "§eRýchlosť koní bola nastavená na <speed>."
   race_set_horse_jump_strength:
-    success: "§eHorse jump strength has been set to <jump_strength>."
+    success: "§eSila skoku koní bola nastavená na <jump_strength>."
   race_add_potion_effect:
-    success: "§ePotion effect `<potion_effect>` with amplifier `<amplifier>` set in race `<race_name>`."
+    success: "§eEfekt `<potion_effect>` so silou `<amplifier>` bol nastavený pre pretek `<race_name>`."
   race_remove_potion_effect:
-    success: "§ePotion effect `<potion_effect>` has been removed from race `<race_name>`."
+    success: "§eEfekt `<potion_effect>` bol odstránený z preteku`<race_name>`."
   race_clear_potion_effects:
-    success: "§eAll potion effects has been removed from race `<race_name>`."
+    success: "§eVšetky efekty boli odstránené z preteku `<race_name>`."
   race_leave:
-    error_not_participating: "§cYou are not participating in any race."
-    success: "§eYou have left race `<race_name>`."
-    leave_broadcast: "§e<player_name> has left race `<race_name>`."
-    leave_payback: "§eYou have been paid your entry fee of <entry_fee> back."
+    error_not_participating: "§cNezúčastňujete sa žiadneho preteku."
+    success: "§eOpustili ste pretek `<race_name>`."
+    leave_broadcast: "§e<player_name> opustil pretek `<race_name>`."
+    leave_payback: "§eVáš poplatok pre účasť o výške <entry_fee> vám bol zaslaný naspäť na váš účet."
   race_info:
     success: |
-      §6§m----§r§6[ §eRace Info §6]§m----
-      §eName: §f<name>
-      §eType: §f<type>
-      §eState: §f<state>
-      §eCreated: §f<created>
-      §eStartpoints: §f<num_startpoints>
-      §eCheckpoints: §f<num_checkpoints>
-      <entry_fee|suffix:\n>§eWalk speed: §f<walk_speed>
-      §ePotion effects: <none>
+      §6§m----§r§6[ §eInfo o preteku §6]§m----
+      §eNázov: §f<name>
+      §eTyp: §f<type>
+      §eStatus: §f<state>
+      §eVytvorený: §f<created>
+      §eZačiatočné body: §f<num_startpoints>
+      §eZáchytné body: §f<num_checkpoints>
+      <entry_fee|suffix:\n>§eRýchlosť behu: §f<walk_speed>
+      §eEfekty: <none>
       <potion_effects|delimiter:\n>
-    no_potion_effects: "§fNone"
+    no_potion_effects: "§fŽiadne"
     potion_effect_item: "§f<potion_effect> : <amplifier>"
-    entry_fee_line: "§eEntry fee: §f<entry_fee>\n"
+    entry_fee_line: "§ePoplatok za účasť: §f<entry_fee>\n"
   race_top:
     types:
-      fastest: 'Fastest runs'
-      most_runs: 'Most runs'
-      most_wins: 'Most wins'
-      win_ratio: 'Win ratio'
-    header: "§9<type> §ein race §a<race_name>"
+      fastest: 'Najrýchlejšie preteky'
+      most_runs: 'Najviac pretekov'
+      most_wins: 'Najviac víťazstiev'
+      win_ratio: 'Priemer výhier'
+    header: "§9<type> §ev preteku §a<race_name>"
     item: "§e#<position> §f<player_name> §8- §e<value>"
     item_none: "§e#<position> §f-"
   race_reset_top:
-    success: '§eLeaderboard for race §a<race_name> §e has been reset.'
+    success: '§eRebríček pre pretek §a<race_name> §ebol resetovaný.'
 
 validators:
-  race_not_found: "§cA race with name `<race_name>` couldn't be found."
-  race_already_exist: "§cThere is already a race with name `<race_name>`."
-  checkpoint_not_found: "§cA checkpoint with position `<position>` in race `<race_name>` couldn't be found."
-  checkpoint_already_exist: "§cThere is already a checkpoint `<position>` in race `<race_name>`."
+  race_not_found: "§cPretek s menom `<race_name>` nebol nájdený."
+  race_already_exist: "§cUž existuje pretek s názvom `<race_name>`."
+  checkpoint_not_found: "§cZáchytný bod s pozíciou `<position>` v preteku `<race_name>` nebol nájdený."
+  checkpoint_already_exist: "§cUž existuje záchytný bod `<position>` v preteku `<race_name>`."
   startpoint_not_found: "§cA start point with position `<position>` in race `<race_name>` couldn't be found."
   startpoint_already_exist: "§cThere is already a start point with position `<position>` in race `<race_name>`."
   type_not_found: "§cThere is no type called `<type>`. Possible types: <types>."
