@@ -133,71 +133,71 @@ validators:
   potion_effect_not_found: "§cNebol nájdený efekt `<potion_effect>`."
   stat_type_not_found: "§cNie je žiadna štatistika s názvom `<stat_type>`. Možné hodnoty: <stat_types>"
 
-race_canceled: "§cRace has been cancelled due to lack of participants."
-race_start_noshow_disqualified: "§e<player_name> was absent and is now disqualified."
-race_start_quit_disqualified: "§e<player_name> left and is now disqualified."
-race_start_gamemode_disqualified: "§e<player_name> is in a forbidden game mode and is now disqualified."
-race_start_gamemode_disqualified_target: "§eYou were disqualified since you are in a forbidden game mode."
-race_death_disqualified: "§e<player_name> died during the race and is now disqualified."
-race_death_disqualified_target: "§eYou died and is therefore disqualified. Better luck next time."
-edit_no_edit_mode: "§cYou can't change race `<race_name>` because it's not under construction. Type §7/rc setstate <race_name> under_construction§c to put it under construction."
-race_win: "§e<player_name> has won race §a<race_name>§e with time <time>."
+race_canceled: "§cPretek bol zrušený z dôvodu nedostatku uchádzačov."
+race_start_noshow_disqualified: "§e<player_name> chýbal a teraz bol diskvalifikovaný."
+race_start_quit_disqualified: "§e<player_name> odišiel a bol diskvalifikovaný."
+race_start_gamemode_disqualified: "§e<player_name> bol v zakázanom hernom móde a teraz bol diskvalifikovaný."
+race_start_gamemode_disqualified_target: "§eBol si diskvalifikovaný, kedže si bol v zakázanom hernom móde."
+race_death_disqualified: "§e<player_name> zomrel počas preteku a teraz je diskvalifikovaný."
+race_death_disqualified_target: "§eZomrel si, tým pádom si diskvalifikovaný. Veľa štastia nabudúce."
+edit_no_edit_mode: "§cNemôžeš upraviť pretek `<race_name>` pretože nie je vo výstavbe. Napíš §7/rc setstate <race_name> under_construction§c pre umiestnenie do výstavby."
+race_win: "§e<player_name> vyhral pretek §a<race_name>§e s časom <time>."
 race_participate_click_text: "/rc join <race_name>"
-race_participate_hover_text: "Click here to participate."
+race_participate_hover_text: "Klikni sem pre účasť."
 race_participate_text: |
-  §eRace §a<race_name>§e has been started and begins in <time_left>.
-  Laps: <laps>
-  §6>> Click here to participate <<
+  §ePretek §a<race_name>§e bol odštartovaný a začína o <time_left>.
+  Okruhy: <laps>
+  §6>> Klikni sem pre účasť <<
 race_participate_text_fee: |
-  §eRace §a<race_name>§e has been started and begins in <time_left>.
-  Laps: <laps>
-  Entry fee: <entry_fee>
-  §6>> Click here to participate <<
+  §ePretek §a<race_name>§e bol odštartovaný a začína o <time_left>.
+  Okruhy: <laps>
+  Poplatok za účasť: <entry_fee>
+  §6>> Klikni sem pre účasť <<
 race_participate_discord: |
   @everyone
-  Race **<race_name>** has been started and begins in **<time_left>**.
-  Laps: <laps>
-  Enter the server and write **/rc join <race_name>** to participate.
+  Pretek **<race_name>** bol odštartovaný a začína o **<time_left>**.
+  Okruhy: <laps>
+  Choďte na server a napíšte **/rc join <race_name>** pre účasť.
 race_participate_discord_fee: |
   @everyone
-  Race **<race_name>** has been started and begins in **<time_left>**.
-  Laps: <laps>
-  Entry fee: <entry_fee>
-  Enter the server and write **/rc join <race_name>** to participate.
-race_participate_text_timeleft: "§eThere are <time_left> left before the race begins. Write §7/rc join <race_name>§e to participate."
-race_countdown_subtitle: "seconds before the race begins."
-race_next_lap_actionbar: "§6Lap <ordinal>"
-race_final_lap_actionbar: "§6Final lap"
-race_type_respawn_start_info: "§eYou can punch the air to teleport back to the start point."
-race_type_respawn_last_info: "§eYou can punch the air to teleport back to the last checkpoint."
-race_skipwait_hover_text: "Click here to start instantly"
+  Pretek **<race_name>** bol odštartovaný a začína o **<time_left>**.
+  Okruhy: <laps>
+  Poplatok za účasť: <entry_fee>
+  Choďte na server a napíšte **/rc join <race_name>** pre účasť.
+race_participate_text_timeleft: "§eZostáva <time_left> pred začiatkom preteku. Napíš §7/rc join <race_name>§e pre účasť."
+race_countdown_subtitle: "sekúnd pred začatím."
+race_next_lap_actionbar: "§6Okruh <ordinal>"
+race_final_lap_actionbar: "§6Posledný okruh"
+race_type_respawn_start_info: "§eMôžeš udrieť do vzduchu aby si sa teleportoval naspäť na začiatočný bod."
+race_type_respawn_last_info: "§eMôžeš udrieť do vzduchu aby si sa teleportoval naspäť na posledný záchytný bod."
+race_skipwait_hover_text: "Klikni sem pre okamžité zahájenie"
 race_skipwait_click_text: "/rc skipwait <race_name>"
-race_skipwait: "§e[Skip waiting]"
-race_stop_hover_text: "Click here to stop the race"
+race_skipwait: "§e[Preskočiť čakanie]"
+race_stop_hover_text: "Klikni sem pre zastavenie preteku"
 race_stop_click_text: "/rc stop <race_name>"
-race_stop: "§e[Stop race]"
-race_sign_registered: "§eSign for race `<race_name>` has been registered."
-race_sign_unregistered: "§eSign for race `<race_name>` has been unregistered."
+race_stop: "§e[Zastaviť pretek]"
+race_sign_registered: "§eCeduľa pre pretek `<race_name>` bola zaregistrovaná."
+race_sign_unregistered: "§eCeduľa pre pretek `<race_name>` bola odregistrovaná."
 race_sign_lines: |
-  [Race]
+  [Pretek]
   <race_name>
   §l§8<current_participants>/<max_participants>
   <status>
-race_sign_status_not_started: "§8§l• Not started •"
+race_sign_status_not_started: "§8§l• Nezačatý •"
 race_sign_status_lobby: "§d§l• Lobby •"
-race_sign_status_in_game: "§4§l• In game •"
-race_blocked_cmd: "§c<command> is blocked during a race."
+race_sign_status_in_game: "§4§l• V hre •"
+race_blocked_cmd: "§c<command> je zablokovaný počas preteku."
 
-no_permission_command: "§cYou don't have permission to execute this command."
-missing_arguments_command: "§cSome arguments for this command is missing.\n\nUsage:\n<usage>"
-command_not_found: "§cCommand wasn't found.\n\nSuggestions:\n<suggestions>"
+no_permission_command: "§cNemáš oprávnenia pre použitie tohto príkazu."
+missing_arguments_command: "§cNejaké argumenty chýbajú.\n\nPoužitie:\n<usage>"
+command_not_found: "§cPríkaz nebol nájdený.\n\nNávrhy:\n<suggestions>"
 
-timeunit.second: "second"
-timeunit.seconds: "seconds"
-timeunit.minute: "minute"
-timeunit.minutes: "minutes"
-timeunit.hour: "hour"
-timeunit.hours: "hours"
-timeunit.day: "day"
-timeunit.days: "days"
-timeunit.now: "now"
+timeunit.second: "sekunda"
+timeunit.seconds: "sekúnd"
+timeunit.minute: "minúta"
+timeunit.minutes: "minút"
+timeunit.hour: "hodina"
+timeunit.hours: "hodiny"
+timeunit.day: "deň"
+timeunit.days: "dni"
+timeunit.now: "teraz"
