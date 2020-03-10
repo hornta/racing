@@ -57,7 +57,8 @@ public class FileAPI implements RacingAPI {
   private static final String RESULTS_FIELD_PLAYER_NAME = "name";
   private static final String RESULTS_FIELD_WINS = "wins";
   private static final String RESULTS_FIELD_RUNS = "runs";
-  private static final String RESULTS_FIELD_DURATION = "duration";
+  private static final String RESULTS_FIELD_FASTEST_LAP = "fastestLap";
+  private static final String RESULTS_FIELD_RECORDS = "records";
   private static final String MINIMUM_REQUIRED_PARTICIPANTS_TO_START = "min_required_participants_to_start";
   private static final String PIG_SPEED_FIELD = "pig_speed";
   private static final String HORSE_SPEED_FIELD = "horse_speed";
@@ -577,9 +578,10 @@ public class FileAPI implements RacingAPI {
 
       int runs = (int) entry.get(RESULTS_FIELD_RUNS);
       int wins = (int) entry.get(RESULTS_FIELD_WINS);
-      long time = (int) entry.get(RESULTS_FIELD_DURATION);
+      long fastestLap = (int) entry.get(RESULTS_FIELD_FASTEST_LAP);
+      Map<Integer, Long> records = (Map<Integer, Long>) entry.get(RESULTS_FIELD_RECORDS);
 
-      results.add(new RacePlayerStatistic(playerId, playerName, wins, runs, time));
+      results.add(new RacePlayerStatistic(playerId, playerName, wins, runs, fastestLap, records));
     }
 
     return results;
@@ -594,7 +596,8 @@ public class FileAPI implements RacingAPI {
       writeObject.put(RESULTS_FIELD_PLAYER_NAME, entry.getPlayerName());
       writeObject.put(RESULTS_FIELD_RUNS, entry.getRuns());
       writeObject.put(RESULTS_FIELD_WINS, entry.getWins());
-      writeObject.put(RESULTS_FIELD_DURATION, entry.getTime());
+      writeObject.put(RESULTS_FIELD_FASTEST_LAP, entry.getFastestLap());
+      writeObject.put(RESULTS_FIELD_RECORDS, entry.getRecords());
       writeList.add(writeObject);
     }
 

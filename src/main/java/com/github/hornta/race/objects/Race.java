@@ -87,8 +87,8 @@ public class Race implements Listener {
           case WINS:
             order = o2.getWins() - o1.getWins();
             break;
-          case FASTEST:
-            order = (int)(o1.getTime() - o2.getTime());
+          case FASTEST_LAP:
+            order = (int)(o1.getFastestLap() - o2.getFastestLap());
             break;
           case WIN_RATIO:
             order = (int)((float)o2.getWins() / o2.getRuns() * 100 - (float)o1.getWins() / o1.getRuns() * 100);
@@ -117,12 +117,15 @@ public class Race implements Listener {
     RacePlayerStatistic playerStatistic = resultByPlayerId.get(result.getPlayerSession().getPlayerId());
     RacePlayerStatistic newStat;
     if(playerStatistic == null) {
+      Map<Integer, Long> records = new HashMap<Integer, Long>();
+      records.put(result.getPlayerSession().getCurrentLap(), result.getTime());
       newStat = new RacePlayerStatistic(
         result.getPlayerSession().getPlayerId(),
         result.getPlayerSession().getPlayerName(),
         result.getPosition() == 1 ? 1 : 0,
         1,
-        result.getTime()
+        result.getPlayerSession().getFastestLapTime(),
+        records
       );
     } else {
       newStat = playerStatistic.clone();
@@ -131,8 +134,13 @@ public class Race implements Listener {
       if (result.getPosition() == 1) {
         newStat.setWins(newStat.getWins() + 1);
       }
-      if(newStat.getTime() > result.getTime()) {
-        newStat.setTime(result.getTime());
+      if(newStat.getFastestLap() > result.getPlayerSession().getFastestLapTime()) {
+        newStat.setFastestLap(result.getPlayerSession().getFastestLapTime());
+      }
+      int laps = result.getPlayerSession().getCurrentLap();
+      if(newStat.getRecord(laps) > result.getTime())
+      {
+        newStat.setRecord(laps, result.getTime());
       }
     }
 
@@ -177,7 +185,7 @@ public class Race implements Listener {
   }
 
   public void removePotionEffect(PotionEffectType type) {
-    Iterator it = potionEffects.iterator();
+    Iterator<RacePotionEffect> it = potionEffects.iterator();
     while(it.hasNext()) {
       if(((RacePotionEffect)it.next()).getType() == type) {
         it.remove();

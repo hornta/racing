@@ -35,8 +35,8 @@ public class CommandTop extends RacingCommand implements ICommandHandler {
         case WIN_RATIO:
           value = (int)((float)result.getWins() / result.getRuns() * 100) + "%";
           break;
-        case FASTEST:
-          value = Util.getTimeLeft(result.getTime());
+        case FASTEST_LAP:
+          value = Util.getTimeLeft(result.getFastestLap());
           Util.setTimeUnitValues();
           break;
         case WINS:

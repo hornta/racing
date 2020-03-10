@@ -2,15 +2,18 @@ package com.github.hornta.race.objects;
 
 import com.github.hornta.race.ConfigKey;
 import com.github.hornta.race.Racing;
+import com.github.hornta.race.ScoreboardManager;
 import com.github.hornta.race.SongManager;
 import com.github.hornta.race.Util;
 import com.github.hornta.race.enums.RaceCommandType;
 import com.github.hornta.race.enums.RaceSessionState;
+import com.github.hornta.race.enums.RaceStatType;
 import com.github.hornta.race.enums.RaceType;
 import com.github.hornta.race.enums.RespawnType;
 import com.github.hornta.race.events.*;
 import com.github.hornta.race.MessageKey;
 import com.github.hornta.carbon.message.MessageManager;
+import com.xxmicloxx.NoteBlockAPI.model.RepeatMode;
 import com.xxmicloxx.NoteBlockAPI.songplayer.RadioSongPlayer;
 import io.papermc.lib.PaperLib;
 import net.md_5.bungee.api.ChatMessageType;
@@ -39,6 +42,7 @@ import org.bukkit.event.vehicle.VehicleMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Team;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
@@ -57,6 +61,8 @@ public class RaceSession implements Listener {
   private Map<UUID, RacePlayerSession> playerSessions = new HashMap<>();
   private Team team;
   private RaceSessionResult result;
+
+  private ScoreboardManager scoreboardManager = new ScoreboardManager();
 
   public RaceSession(CommandSender initiator, Race race, int laps) {
     this.race = race;
@@ -222,7 +228,7 @@ public class RaceSession implements Listener {
     if(team == null) {
       team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(teamName);
     }
-    if(Racing.getInstance().getConfiguration().get(ConfigKey.COLLISION_COUNTDOWN)) {
+    if((boolean)Racing.getInstance().getConfiguration().get(ConfigKey.COLLISION_COUNTDOWN)) {
       team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.ALWAYS);
     } else {
       team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
@@ -232,13 +238,32 @@ public class RaceSession implements Listener {
     List<RacePlayerSession> shuffledSessions = new ArrayList<>(playerSessions.values());
     Collections.shuffle(shuffledSessions);
 
-    if(Racing.getInstance().getConfiguration().get(ConfigKey.CHECKPOINT_PARTICLES_DURING_RACE)) {
+    if((boolean)Racing.getInstance().getConfiguration().get(ConfigKey.CHECKPOINT_PARTICLES_DURING_RACE)) {
       for (int i = 0; i < race.getCheckpoints().size(); ++i) {
         race.getCheckpoints().get(i).startTask(false, i == race.getCheckpoints().size() - 1);
       }
     }
 
     int startPointIndex = 0;
+    long worldRecord = Long.MAX_VALUE;
+    long worldRecordFastestLap = Long.MAX_VALUE;
+    String worldRecordHolder = "";
+    String worldRecordFastestLapHolder = "";
+    for(RacePlayerStatistic playerStatistics : race.getResultByPlayerId().values())
+    {
+      if((long)worldRecord > (long)playerStatistics.getRecord(this.laps))
+      {
+        worldRecord = (long)playerStatistics.getRecord(this.laps);
+        worldRecordHolder = playerStatistics.getPlayerName();
+      }
+    }
+    Set<RacePlayerStatistic> fastestLaps = race.getResults(RaceStatType.FASTEST_LAP);
+    if(!fastestLaps.isEmpty())
+    {
+      RacePlayerStatistic statistic = fastestLaps.iterator().next();
+      worldRecordFastestLap = statistic.getFastestLap();
+      worldRecordFastestLapHolder = statistic.getPlayerName();
+    }
     for(RacePlayerSession session : shuffledSessions) {
       session.setCurrentLap(1);
       session.setStartPoint(race.getStartPoints().get(startPointIndex));
@@ -247,13 +272,27 @@ public class RaceSession implements Listener {
       tryIncrementCheckpoint(session);
       startPointIndex += 1;
       team.addEntry(session.getPlayer().getName());
+      scoreboardManager.addScoreboard(session.getPlayer(), race.getName());
+      scoreboardManager.updateWorldRecord(session.getPlayer(), worldRecord);
+      scoreboardManager.updateWorldRecordHolder(session.getPlayer(), worldRecordHolder);
+      scoreboardManager.updateWorldRecordFastestLap(session.getPlayer(), worldRecordFastestLap);
+      scoreboardManager.updateWorldRecordFastestLapHolder(session.getPlayer(), worldRecordFastestLapHolder);
+      if(race.getResultByPlayerId().containsKey(session.getPlayerId()))
+      {
+        RacePlayerStatistic statistics = race.getResultByPlayerId().get(session.getPlayerId());
+        scoreboardManager.updatePersonalBestLapTime(session.getPlayer(), statistics.getFastestLap());
+        if(statistics.getRecord(this.laps) != Long.MAX_VALUE)
+        {
+          scoreboardManager.updatePersonalBest(session.getPlayer(), statistics.getRecord(this.laps));
+        }
+      }
     }
 
     countdown = new RaceCountdown(playerSessions.values());
     countdown.start(() -> {
       setState(RaceSessionState.STARTED);
       team.setAllowFriendlyFire(Racing.getInstance().getConfiguration().get(ConfigKey.FRIENDLY_FIRE_STARTED));
-      if(Racing.getInstance().getConfiguration().get(ConfigKey.COLLISION_STARTED)) {
+      if((boolean)Racing.getInstance().getConfiguration().get(ConfigKey.COLLISION_STARTED)) {
         team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.ALWAYS);
       } else {
         team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
@@ -299,9 +338,32 @@ public class RaceSession implements Listener {
 
       if(songPlayer != null) {
         songPlayer.setTick((short) 0);
+        songPlayer.setRepeatMode(RepeatMode.ALL);
         songPlayer.setPlaying(true);
       }
       start = System.currentTimeMillis();
+      for(RacePlayerSession session : playerSessions.values())
+      {
+         session.setLapStartTime(start);
+      }
+      int ticksPerUpdate = Racing.getInstance().getConfiguration().get(ConfigKey.SCOREBOARD_TICKS_PER_UPDATE);
+      new BukkitRunnable() {
+         @Override
+         public void run() {
+            long currentTime = System.currentTimeMillis();
+            long raceTime = currentTime - start;
+            for(RacePlayerSession session : playerSessions.values())
+            {
+              if(!session.isFinished())
+              {
+                Player player = session.getPlayer();
+                long lapTime = currentTime - session.getLapStartTime();
+                scoreboardManager.updateRaceTime(player, raceTime);
+                scoreboardManager.updateRaceCurrentLapTime(player, lapTime);
+              }
+            }
+         }
+      }.runTaskTimer(Racing.getInstance(), ticksPerUpdate, ticksPerUpdate);
     });
   }
 
@@ -371,6 +433,13 @@ public class RaceSession implements Listener {
       team = null;
     }
 
+    if(scoreboardManager.isEnabled())
+    {
+      for (RacePlayerSession session : playerSessions.values()) {
+        scoreboardManager.removeScoreboard(session.getPlayer());
+      }
+    }
+
     HandlerList.unregisterAll(this);
   }
 
@@ -378,6 +447,7 @@ public class RaceSession implements Listener {
     RacePlayerSession playerSession = playerSessions.get(player.getUniqueId());
     playerSession.restore();
     playerSessions.remove(player.getUniqueId());
+    scoreboardManager.removeScoreboard(player);
 
     Economy economy = Racing.getInstance().getEconomy();
     if(economy != null && playerSession.getChargedEntryFee() > 0) {
@@ -467,7 +537,9 @@ public class RaceSession implements Listener {
 
         if(isLastCheckpoint && playerSession.getCurrentLap() == laps) {
           playerSession.setNextCheckpoint(null);
+          playerSession.setFinished();
           numFinished += 1;
+          updatePlayerLapTime(playerSession);
           result.addPlayerSessionResult(playerSession, numFinished, System.currentTimeMillis() - start);
           playerSession.restore();
           Bukkit.getPluginManager().callEvent(new RacePlayerGoalEvent(this, playerSession));
@@ -478,6 +550,8 @@ public class RaceSession implements Listener {
             playerSession.setNextCheckpoint(race.getCheckpoint(1));
             playerSession.setCurrentLap(playerSession.getCurrentLap() + 1);
             playerSession.getBossBar().setTitle(getBossBarTitle(playerSession));
+ 
+            updatePlayerLapTime(playerSession);
 
             if(laps > 1) {
               String message;
@@ -496,6 +570,14 @@ public class RaceSession implements Listener {
         Bukkit.getPluginManager().callEvent(new CheckpointReachedEvent(this, playerSession, nextCheckpoint));
       }
     }
+  }
+
+  private void updatePlayerLapTime(RacePlayerSession playerSession) {
+    long currentTime = System.currentTimeMillis();
+    playerSession.setFastestLapTime(currentTime - playerSession.getLapStartTime());
+    playerSession.setLapStartTime(currentTime);
+    scoreboardManager.updateRaceFastestLap(playerSession.getPlayer(), playerSession.getFastestLapTime());
+    scoreboardManager.updatePersonalBestLapTime(playerSession.getPlayer(), playerSession.getPersonalBestLapTime());
   }
 
   @EventHandler
