@@ -537,6 +537,7 @@ public class RaceSession implements Listener {
 
         if(isLastCheckpoint && playerSession.getCurrentLap() == laps) {
           playerSession.setNextCheckpoint(null);
+          playerSession.setFinished();
           numFinished += 1;
           updatePlayerLapTime(playerSession);
           result.addPlayerSessionResult(playerSession, numFinished, System.currentTimeMillis() - start);
