@@ -464,7 +464,7 @@ public class RacingManager implements Listener {
     }
 
     boolean startOnSign = Racing.getInstance().getConfiguration().get(ConfigKey.START_ON_JOIN_SIGN);
-    boolean startOnCommand = Racing.getInstance().getConfiguration().get(ConfigKey.START_ON_JOIN_SIGN);
+    boolean startOnCommand = Racing.getInstance().getConfiguration().get(ConfigKey.START_ON_JOIN_COMMAND);
 
     if (session == null && ((type == JoinType.SIGN && startOnSign) || (type == JoinType.COMMAND && startOnCommand))) {
       StartRaceStatus status = tryStartRace(race.getName(), player, laps);
