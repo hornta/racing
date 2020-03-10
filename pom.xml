@@ -6,7 +6,7 @@
 
     <groupId>com.github.hornta</groupId>
     <artifactId>racing</artifactId>
-    <version>1.25.3</version>
+    <version>1.26.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,6 +23,12 @@
                     <filesets>
                         <fileset>
                             <directory>server/plugins</directory>
+                            <includes>
+                                <include>racing-*.jar</include>
+                            </includes>
+                        </fileset>
+                        <fileset>
+                            <directory>server-new/plugins</directory>
                             <includes>
                                 <include>racing-*.jar</include>
                             </includes>
@@ -95,6 +101,15 @@
                             <version>${project.version}</version>
                             <type>jar</type>
                             <overWrite>yes</overWrite>
+                            <outputDirectory>${project.basedir}/server-new/plugins</outputDirectory>
+                            <destFileName>${project.artifactId}-${project.version}.jar</destFileName>
+                        </artifactItem>
+                        <artifactItem>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>${project.artifactId}</artifactId>
+                            <version>${project.version}</version>
+                            <type>jar</type>
+                            <overWrite>yes</overWrite>
                             <outputDirectory>${project.basedir}</outputDirectory>
                             <destFileName>${project.artifactId}-${project.version}.jar</destFileName>
                         </artifactItem>
@@ -147,12 +162,6 @@
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
             <version>1.15-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>1.14.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!-- NoteBlockAPI integration -->
