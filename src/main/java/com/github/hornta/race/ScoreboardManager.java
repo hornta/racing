@@ -113,7 +113,7 @@ public class ScoreboardManager {
   public void updateWorldRecordHolder(Player player, String name)
   {
     Scoreboard board = player.getScoreboard();
-    if (board != null && configMap.get(WORLD_RECORD_HOLDER))
+    if (board != null && name != "" && configMap.get(WORLD_RECORD_HOLDER))
     {
       board.getTeam(WORLD_RECORD_HOLDER).setPrefix(convertText(name));
     }
@@ -127,7 +127,7 @@ public class ScoreboardManager {
   public void updateWorldRecordFastestLapHolder(Player player, String name)
   {
     Scoreboard board = player.getScoreboard();
-    if (board != null && configMap.get(WORLD_RECORD_FASTEST_LAP_HOLDER))
+    if (board != null && name != "" && configMap.get(WORLD_RECORD_FASTEST_LAP_HOLDER))
     {
       board.getTeam(WORLD_RECORD_FASTEST_LAP_HOLDER).setPrefix(convertText(name));
     }
