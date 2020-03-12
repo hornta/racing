@@ -185,7 +185,7 @@ public class ScoreboardManager {
 
   private Scoreboard setupScoreboard(Player player)
   {
-    String mainHeading = ChatColor.translateAlternateColorCodes('&', translationMap.get(HEADING));
+    String mainHeading = translationMap.get(HEADING);
 
     Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
     Objective objective = board.registerNewObjective(player.getName(), SCOREBOARD_OBJECTIVE, mainHeading);
