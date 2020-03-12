@@ -304,15 +304,15 @@ public class ScoreboardManager {
   }
 
   private String convertHeading(String heading) {
-    return headingFormat.replace("<HEADING>", heading);
+    return headingFormat.replace("<heading>", heading);
   }
 
   private String convertTitle(String title) {
-    return titleFormat.replace("<TITLE>", title);
+    return titleFormat.replace("<title>", title);
   }
 
   private String convertText(String value) {
-    return textFormat.replace("<TEXT>", value);
+    return textFormat.replace("<text>", value);
   }
 
   private int calculateNumberOfRowsNeeded() {
