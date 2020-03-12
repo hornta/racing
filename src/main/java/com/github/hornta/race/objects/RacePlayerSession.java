@@ -33,7 +33,6 @@ public class RacePlayerSession {
   private long lapStartTime;
   private long fastestLap = Long.MAX_VALUE;
   private long personalBestLapTime = Long.MAX_VALUE;
-  private boolean isFinished = false;
   private boolean isAllowedToEnterVehicle;
   private boolean isAllowedToExitVehicle;
   private RaceParticipantReset restore;
@@ -99,14 +98,9 @@ public class RacePlayerSession {
     return personalBestLapTime;
   }
 
-  public void setFinished()
-  {
-    isFinished = true;
-  }
-
   public boolean isFinished()
   {
-    return isFinished;
+    return nextCheckpoint == null;
   }
 
   void startCooldown() {
