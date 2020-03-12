@@ -21,23 +21,22 @@ public class ScoreboardManager {
   private final String WORLD_RECORD_HOLDER = ChatColor.BLACK.toString();
   private final String WORLD_RECORD_FASTEST_LAP = ChatColor.BLUE.toString();
   private final String WORLD_RECORD_FASTEST_LAP_HOLDER = ChatColor.DARK_AQUA.toString();
-  private final String PERSONAL_BEST = ChatColor.DARK_BLUE.toString();
+  private final String PERSONAL_RECORD = ChatColor.DARK_BLUE.toString();
   private final String RACE_TIME = ChatColor.DARK_GRAY.toString();
   private final String RACE_CURRENT_LAP_TIME = ChatColor.DARK_GREEN.toString();
   private final String RACE_FASTEST_LAP_TIME = ChatColor.DARK_PURPLE.toString();
-  private final String PERSONAL_BEST_LAP_TIME = ChatColor.DARK_RED.toString();
+  private final String PERSONAL_RECORD_LAP_TIME = ChatColor.DARK_RED.toString();
 
   private final String SCOREBOARD_OBJECTIVE = "hornta.Racing";
   private final String HEADING = "heading";
   private final String NO_TIME_STATS = "noTimeStats";
   private final String NO_NAME_STATS = "noNameStats";
-  private final String PERSONAL_RECORD_TAG = "personalRecord";
+  private final String LAP_TAG = "personalRecord";
   
   private final int rowsNeeded;
 
   //loaded from config files
   private final boolean enabled;
-  private final boolean allowCollisions;
   private final String headingFormat;
   private final String titleFormat;
   private final String textFormat;
@@ -51,7 +50,6 @@ public class ScoreboardManager {
   public ScoreboardManager()
   {
     this.enabled = Racing.getInstance().getConfiguration().get(ConfigKey.SCOREBOARD_ENABLED);
-    this.allowCollisions = true;
     this.headingFormat = MessageManager.getMessage(MessageKey.SCOREBOARD_HEADING_FORMAT);
     this.titleFormat = MessageManager.getMessage(MessageKey.SCOREBOARD_TITLE_FORMAT);
     this.textFormat = MessageManager.getMessage(MessageKey.SCOREBOARD_TEXT_FORMAT);
@@ -61,22 +59,21 @@ public class ScoreboardManager {
     configMap.put(WORLD_RECORD_HOLDER, Racing.getInstance().getConfiguration().get(ConfigKey.SCOREBOARD_WORLD_RECORD_HOLDER));
     configMap.put(WORLD_RECORD_FASTEST_LAP, Racing.getInstance().getConfiguration().get(ConfigKey.SCOREBOARD_WORLD_RECORD_FASTEST_LAP));
     configMap.put(WORLD_RECORD_FASTEST_LAP_HOLDER, Racing.getInstance().getConfiguration().get(ConfigKey.SCOREBOARD_WORLD_RECORD_FASTEST_LAP_HOLDER));
-    configMap.put(PERSONAL_BEST, Racing.getInstance().getConfiguration().get(ConfigKey.SCOREBOARD_PERSONAL_BEST));
+    configMap.put(PERSONAL_RECORD, Racing.getInstance().getConfiguration().get(ConfigKey.SCOREBOARD_PERSONAL_RECORD));
+    configMap.put(PERSONAL_RECORD_LAP_TIME, Racing.getInstance().getConfiguration().get(ConfigKey.SCOREBOARD_PERSONAL_RECORD_FASTEST_LAP));
     configMap.put(RACE_TIME, Racing.getInstance().getConfiguration().get(ConfigKey.SCOREBOARD_TIME));
     configMap.put(RACE_CURRENT_LAP_TIME, Racing.getInstance().getConfiguration().get(ConfigKey.SCOREBOARD_LAP_TIME));
     configMap.put(RACE_FASTEST_LAP_TIME, Racing.getInstance().getConfiguration().get(ConfigKey.SCOREBOARD_FASTEST_LAP));
-    configMap.put(PERSONAL_BEST_LAP_TIME, Racing.getInstance().getConfiguration().get(ConfigKey.SCOREBOARD_FASTEST_LAP_PR));
 
     translationMap.put(HEADING, convertHeading("Racing"));
     translationMap.put(NO_TIME_STATS, MessageManager.getMessage(MessageKey.SCOREBOARD_NO_TIME_STATS));
     translationMap.put(NO_NAME_STATS, MessageManager.getMessage(MessageKey.SCOREBOARD_NO_NAME_STATS));
     translationMap.put(WORLD_RECORD, MessageManager.getMessage(MessageKey.SCOREBOARD_WORLD_RECORD));
     translationMap.put(WORLD_RECORD_FASTEST_LAP, MessageManager.getMessage(MessageKey.SCOREBOARD_WORLD_RECORD_FASTEST_LAP));
-    translationMap.put(PERSONAL_BEST, MessageManager.getMessage(MessageKey.SCOREBOARD_PERSONAL_BEST));
+    translationMap.put(PERSONAL_RECORD, MessageManager.getMessage(MessageKey.SCOREBOARD_PERSONAL_RECORD));
     translationMap.put(RACE_TIME, MessageManager.getMessage(MessageKey.SCOREBOARD_TIME));
-    translationMap.put(RACE_CURRENT_LAP_TIME, MessageManager.getMessage(MessageKey.SCOREBOARD_CURRENT_LAP_TIME));
     translationMap.put(RACE_FASTEST_LAP_TIME, MessageManager.getMessage(MessageKey.SCOREBOARD_FASTEST_LAP));
-    translationMap.put(PERSONAL_RECORD_TAG, MessageManager.getMessage(MessageKey.SCOREBOARD_PERSONAL_RECORD_TAG));
+    translationMap.put(LAP_TAG, MessageManager.getMessage(MessageKey.SCOREBOARD_LAP_TAG));
 
     this.rowsNeeded = calculateNumberOfRowsNeeded();
   }
@@ -92,7 +89,6 @@ public class ScoreboardManager {
       translationMap.put(HEADING, convertHeading(raceName));
       Scoreboard board = setupScoreboard(player);
       Team team = board.registerNewTeam(SCOREBOARD_OBJECTIVE);
-      team.setOption(Team.Option.COLLISION_RULE, (this.allowCollisions ? Team.OptionStatus.ALWAYS : Team.OptionStatus.NEVER));
       team.addEntry(player.getName());
   
       player.setScoreboard(board);
@@ -135,7 +131,7 @@ public class ScoreboardManager {
 
   public void updatePersonalBest(Player player, long timeMillis)
   {
-    updateTime(player, timeMillis, PERSONAL_BEST);
+    updateTime(player, timeMillis, PERSONAL_RECORD);
   }
 
   public void updateRaceTime(Player player, long liveTimeMillis)
@@ -156,7 +152,7 @@ public class ScoreboardManager {
   public void updatePersonalBestLapTime(Player player, long pbLapTime)
   {
     String value = (pbLapTime != Long.MAX_VALUE) ? formatTime(pbLapTime) : translationMap.get(NO_TIME_STATS);
-    updateString(player, value+translationMap.get(PERSONAL_RECORD_TAG), PERSONAL_BEST_LAP_TIME);
+    updateString(player, value+translationMap.get(LAP_TAG), PERSONAL_RECORD_LAP_TIME);
   }
 
   private void updateTime(Player player, long timeMillis, String scoreboardTeam)
@@ -195,9 +191,8 @@ public class ScoreboardManager {
 
     addWorldRecords(playerScoreboard);
     addWorldRecordsFastestLap(playerScoreboard);
-    addPersonalBest(playerScoreboard);
+    addPersonalRecords(playerScoreboard);
     addRaceTime(playerScoreboard);
-    addRaceCurrentLapTime(playerScoreboard);
     addRaceFastestLapTime(playerScoreboard);
 
     return board;
@@ -219,7 +214,7 @@ public class ScoreboardManager {
     if(configMap.get(WORLD_RECORD) || configMap.get(WORLD_RECORD_HOLDER))
     {
       Score onlineName = playerBoard.objective.getScore(convertTitle(translationMap.get(WORLD_RECORD)));
-      onlineName.setScore(playerBoard.getDecreaseCount());
+      onlineName.setScore(playerBoard.decreaseAndGetCount());
 
       if(configMap.get(WORLD_RECORD))
       {
@@ -236,7 +231,7 @@ public class ScoreboardManager {
     if(configMap.get(WORLD_RECORD_FASTEST_LAP) || configMap.get(WORLD_RECORD_FASTEST_LAP_HOLDER))
     {
       Score onlineName = playerBoard.objective.getScore(convertTitle(translationMap.get(WORLD_RECORD_FASTEST_LAP)));
-      onlineName.setScore(playerBoard.getDecreaseCount());
+      onlineName.setScore(playerBoard.decreaseAndGetCount());
 
       if(configMap.get(WORLD_RECORD_FASTEST_LAP))
       {
@@ -249,58 +244,59 @@ public class ScoreboardManager {
     }
   }
 
-  private void addPersonalBest(PlayerScoreboard playerBoard) {
-    if (configMap.get(PERSONAL_BEST))
+  private void addPersonalRecords(PlayerScoreboard playerBoard) {
+    if(configMap.get(PERSONAL_RECORD) || configMap.get(PERSONAL_RECORD_LAP_TIME))
     {
-      addEntryToScoreboard(playerBoard, translationMap.get(NO_TIME_STATS), PERSONAL_BEST);
+      Score onlineName = playerBoard.objective.getScore(convertTitle(translationMap.get(PERSONAL_RECORD)));
+      onlineName.setScore(playerBoard.decreaseAndGetCount());
+
+      if(configMap.get(PERSONAL_RECORD))
+      {
+        addTeamToEntry(playerBoard, translationMap.get(NO_TIME_STATS), PERSONAL_RECORD);
+      }
+      if(configMap.get(PERSONAL_RECORD_LAP_TIME))
+      {
+        addTeamToEntry(playerBoard, translationMap.get(NO_NAME_STATS), PERSONAL_RECORD_LAP_TIME);
+      }
     }
   }
 
-  private void addRaceTime(PlayerScoreboard playerBoard)
-  {
-    if (configMap.get(RACE_TIME))
+  private void addRaceTime(PlayerScoreboard playerBoard) {
+    if(configMap.get(RACE_TIME) || configMap.get(RACE_CURRENT_LAP_TIME))
     {
-      addEntryToScoreboard(playerBoard, translationMap.get(NO_TIME_STATS), RACE_TIME);
-    }
-  }
+      Score onlineName = playerBoard.objective.getScore(convertTitle(translationMap.get(RACE_TIME)));
+      onlineName.setScore(playerBoard.decreaseAndGetCount());
 
-  private void addRaceCurrentLapTime(PlayerScoreboard playerBoard)
-  {
-    if (configMap.get(RACE_CURRENT_LAP_TIME))
-    {
-      addEntryToScoreboard(playerBoard, translationMap.get(NO_TIME_STATS), RACE_CURRENT_LAP_TIME);
+      if(configMap.get(RACE_TIME))
+      {
+        addTeamToEntry(playerBoard, translationMap.get(NO_TIME_STATS), RACE_TIME);
+      }
+      if(configMap.get(RACE_CURRENT_LAP_TIME))
+      {
+        addTeamToEntry(playerBoard, translationMap.get(NO_NAME_STATS), RACE_CURRENT_LAP_TIME);
+      }
     }
   }
 
   private void addRaceFastestLapTime(PlayerScoreboard playerBoard)
   {
-    if(configMap.get(RACE_FASTEST_LAP_TIME) || configMap.get(PERSONAL_BEST_LAP_TIME))
+    if(configMap.get(RACE_FASTEST_LAP_TIME))
     {
       Score onlineName = playerBoard.objective.getScore(convertTitle(translationMap.get(RACE_FASTEST_LAP_TIME)));
-      onlineName.setScore(playerBoard.getDecreaseCount());
+      onlineName.setScore(playerBoard.decreaseAndGetCount());
 
       if(configMap.get(RACE_FASTEST_LAP_TIME))
       {
         addTeamToEntry(playerBoard, translationMap.get(NO_TIME_STATS), RACE_FASTEST_LAP_TIME);
       }
-      if(configMap.get(PERSONAL_BEST_LAP_TIME))
-      {
-        addTeamToEntry(playerBoard, translationMap.get(NO_NAME_STATS), PERSONAL_BEST_LAP_TIME);
-      }
     }
-  }
-
-  private void addEntryToScoreboard(PlayerScoreboard playerBoard, String initialValue, String scoreboardKey) {
-    Score onlineName = playerBoard.objective.getScore(convertTitle(translationMap.get(scoreboardKey)));
-    onlineName.setScore(playerBoard.getDecreaseCount());
-    addTeamToEntry(playerBoard, initialValue, scoreboardKey);
   }
 
   private void addTeamToEntry(PlayerScoreboard playerBoard, String initialValue, String scoreboardKey){
     Team displayName = playerBoard.scoreboard.registerNewTeam(scoreboardKey);
     displayName.addEntry(scoreboardKey);
     displayName.setPrefix(convertText(initialValue));
-    playerBoard.objective.getScore(scoreboardKey).setScore(playerBoard.getDecreaseCount());
+    playerBoard.objective.getScore(scoreboardKey).setScore(playerBoard.decreaseAndGetCount());
   }
 
   private String convertHeading(String heading) {
@@ -325,13 +321,15 @@ public class ScoreboardManager {
     {
       rowsNeeded += (configMap.get(WORLD_RECORD_FASTEST_LAP) && configMap.get(WORLD_RECORD_FASTEST_LAP_HOLDER)) ? 3 : 2;
     }
-    rowsNeeded += configMap.get(PERSONAL_BEST) ? 2 : 0;
-    rowsNeeded += configMap.get(RACE_TIME) ? 2 : 0;
-    rowsNeeded += configMap.get(RACE_CURRENT_LAP_TIME) ? 2 : 0;
-    if(configMap.get(RACE_FASTEST_LAP_TIME) || configMap.get(PERSONAL_BEST_LAP_TIME))
+    if(configMap.get(PERSONAL_RECORD) || configMap.get(PERSONAL_RECORD_LAP_TIME))
     {
-      rowsNeeded += (configMap.get(RACE_FASTEST_LAP_TIME) && configMap.get(PERSONAL_BEST_LAP_TIME)) ? 3 : 2;
+      rowsNeeded += (configMap.get(PERSONAL_RECORD) && configMap.get(PERSONAL_RECORD_LAP_TIME)) ? 3 : 2;
     }
+    if(configMap.get(RACE_TIME) || configMap.get(RACE_CURRENT_LAP_TIME))
+    {
+      rowsNeeded += (configMap.get(RACE_TIME) && configMap.get(RACE_CURRENT_LAP_TIME)) ? 3 : 2;
+    }
+    rowsNeeded += configMap.get(RACE_FASTEST_LAP_TIME) ? 2 : 0;
     return rowsNeeded;
   }
 
@@ -345,7 +343,7 @@ public class ScoreboardManager {
       this.objective = objective;
     }
 
-    public int getDecreaseCount() {
+    public int decreaseAndGetCount() {
       return --scoreboardCount;
     }
   }
@@ -355,7 +353,6 @@ public class ScoreboardManager {
     private long seconds;
     private long minutes;
     private long hours;
-    private long days;
     /**
      * Convert milliseconds into different divisions
      * @param millis
@@ -365,7 +362,6 @@ public class ScoreboardManager {
       this.seconds = millis / 1000;
       this.minutes = seconds / 60;
       this.hours = minutes / 60;
-      this.days = hours / 24;
     }
 
     public long getMilliseconds() {
@@ -382,10 +378,6 @@ public class ScoreboardManager {
 
     public long getHours() {
       return hours % 24;
-    }
-
-    public long getDays() {
-      return days;
     }
   }
 }
