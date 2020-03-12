@@ -191,7 +191,7 @@ public class ScoreboardManager {
     Objective objective = board.registerNewObjective(player.getName(), SCOREBOARD_OBJECTIVE, mainHeading);
     objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
-    PlayerScoreboard playerScoreboard = new PlayerScoreboard(player.getName(), board, objective);
+    PlayerScoreboard playerScoreboard = new PlayerScoreboard(board, objective);
 
     addWorldRecords(playerScoreboard);
     addWorldRecordsFastestLap(playerScoreboard);
@@ -304,21 +304,15 @@ public class ScoreboardManager {
   }
 
   private String convertHeading(String heading) {
-    return cropAndColour(headingFormat.replace("%HEADING%", heading));
+    return headingFormat.replace("<HEADING>", heading);
   }
 
   private String convertTitle(String title) {
-    return cropAndColour(titleFormat.replace("%TITLE%", title));
+    return titleFormat.replace("<TITLE>", title);
   }
 
   private String convertText(String value) {
-    return cropAndColour(textFormat.replace("%TEXT%", value));
-  }
-
-  private String cropAndColour(String text) {
-    text = ChatColor.translateAlternateColorCodes('&', text);
-    //TODO: crop if supporting 1.12 and lower
-    return text;
+    return textFormat.replace("<TEXT>", value);
   }
 
   private int calculateNumberOfRowsNeeded() {
@@ -346,7 +340,7 @@ public class ScoreboardManager {
     private Scoreboard scoreboard;
     private Objective objective;
 
-    public PlayerScoreboard(String playerName, Scoreboard scoreboard, Objective objective) {
+    public PlayerScoreboard(Scoreboard scoreboard, Objective objective) {
       this.scoreboard = scoreboard;
       this.objective = objective;
     }
