@@ -293,7 +293,7 @@ public class RacingManager implements Listener {
 
   @EventHandler
   void onRacePlayerGoal(RacePlayerGoalEvent event) {
-    if ((boolean)Racing.getInstance().getConfiguration().get(ConfigKey.TELEPORT_AFTER_RACE_ENABLED)) {
+    if (Racing.getInstance().getConfiguration().<Boolean>get(ConfigKey.TELEPORT_AFTER_RACE_ENABLED)) {
       TeleportAfterRaceWhen when = Racing.getInstance().getConfiguration()
           .get(ConfigKey.TELEPORT_AFTER_RACE_ENABLED_WHEN);
       if (when == TeleportAfterRaceWhen.PARTICIPANT_FINISHES) {

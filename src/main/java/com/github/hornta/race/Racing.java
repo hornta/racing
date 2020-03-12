@@ -824,7 +824,7 @@ public class Racing extends JavaPlugin {
   }
 
   public static void debug(String message, Object... args) {
-    if((boolean)Racing.getInstance().getConfiguration().get(ConfigKey.VERBOSE)) {
+    if(Racing.getInstance().getConfiguration().<Boolean>get(ConfigKey.VERBOSE)) {
       try {
         Racing.getInstance().getLogger().info(String.format(message, args));
       } catch (IllegalFormatConversionException e) {

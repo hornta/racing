@@ -25,7 +25,7 @@ public class DiscordManager implements Listener, EventListener {
   private boolean startAfterShutdown = false;
 
   DiscordManager() {
-    if((boolean)Racing.getInstance().getConfiguration().get(ConfigKey.DISCORD_ENABLED)) {
+    if(Racing.getInstance().getConfiguration().<Boolean>get(ConfigKey.DISCORD_ENABLED)) {
       startup();
     }
   }
@@ -48,14 +48,14 @@ public class DiscordManager implements Listener, EventListener {
       api.shutdown();
     }
 
-    if((boolean)Racing.getInstance().getConfiguration().get(ConfigKey.DISCORD_ENABLED)) {
+    if(Racing.getInstance().getConfiguration().<Boolean>get(ConfigKey.DISCORD_ENABLED)) {
       startAfterShutdown = true;
     }
   }
 
   @EventHandler
   void onRaceSessionStart(RaceSessionStartEvent event) {
-    if(!(boolean)Racing.getInstance().getConfiguration().get(ConfigKey.DISCORD_ENABLED)) {
+    if(!Racing.getInstance().getConfiguration().<Boolean>get(ConfigKey.DISCORD_ENABLED)) {
       return;
     }
 

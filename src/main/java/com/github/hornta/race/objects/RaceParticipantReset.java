@@ -57,7 +57,7 @@ public class RaceParticipantReset {
     Racing.debug("Closing inventory of %s", playerSession.getPlayer().getName());
     inventory = playerSession.getPlayer().getInventory().getContents();
 
-    if((boolean)Racing.getInstance().getConfiguration().get(ConfigKey.ADVENTURE_ON_START)) {
+    if(Racing.getInstance().getConfiguration().<Boolean>get(ConfigKey.ADVENTURE_ON_START)) {
       playerSession.getPlayer().setGameMode(GameMode.ADVENTURE);
       Racing.debug("Setting game mode to %s on %s", GameMode.ADVENTURE, playerSession.getPlayer().getName());
     }

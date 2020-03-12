@@ -228,7 +228,7 @@ public class RaceSession implements Listener {
     if(team == null) {
       team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(teamName);
     }
-    if((boolean)Racing.getInstance().getConfiguration().get(ConfigKey.COLLISION_COUNTDOWN)) {
+    if(Racing.getInstance().getConfiguration().<Boolean>get(ConfigKey.COLLISION_COUNTDOWN)) {
       team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.ALWAYS);
     } else {
       team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
@@ -238,7 +238,7 @@ public class RaceSession implements Listener {
     List<RacePlayerSession> shuffledSessions = new ArrayList<>(playerSessions.values());
     Collections.shuffle(shuffledSessions);
 
-    if((boolean)Racing.getInstance().getConfiguration().get(ConfigKey.CHECKPOINT_PARTICLES_DURING_RACE)) {
+    if(Racing.getInstance().getConfiguration().<Boolean>get(ConfigKey.CHECKPOINT_PARTICLES_DURING_RACE)) {
       for (int i = 0; i < race.getCheckpoints().size(); ++i) {
         race.getCheckpoints().get(i).startTask(false, i == race.getCheckpoints().size() - 1);
       }
@@ -292,7 +292,7 @@ public class RaceSession implements Listener {
     countdown.start(() -> {
       setState(RaceSessionState.STARTED);
       team.setAllowFriendlyFire(Racing.getInstance().getConfiguration().get(ConfigKey.FRIENDLY_FIRE_STARTED));
-      if((boolean)Racing.getInstance().getConfiguration().get(ConfigKey.COLLISION_STARTED)) {
+      if(Racing.getInstance().getConfiguration().<Boolean>get(ConfigKey.COLLISION_STARTED)) {
         team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.ALWAYS);
       } else {
         team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
@@ -903,7 +903,7 @@ public class RaceSession implements Listener {
 
   @EventHandler
   void onEntityToggleGlideEvent(EntityToggleGlideEvent event) {
-    if(!(boolean)Racing.getInstance().getConfiguration().get(ConfigKey.ELYTRA_RESPAWN_ON_GROUND)) {
+    if(!Racing.getInstance().getConfiguration().<Boolean>get(ConfigKey.ELYTRA_RESPAWN_ON_GROUND)) {
       return;
     }
 
