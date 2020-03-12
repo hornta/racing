@@ -763,16 +763,6 @@ public class Racing extends JavaPlugin {
       .add(MessageKey.SCOREBOARD_NO_NAME_STATS, "scoreboard.no_name_stats")
       .build();
 
-      // scoreboard:
-      // world_record: "World Record:"
-      // world_record_fastest_lap: "WR Fastest Lap:"
-      // personal_best: "Personal Best:"
-      // time: "Time:"
-      // current_lap_time: "Current Lap:"
-      // fastest_lap: "Fastest Lap:"
-      // personal_record_tag: " PR"
-      // no_stats: "--:--.---"
-
     translations = new Translations(this, messageManager);
     Translation translation = translations.createTranslation(configuration.get(ConfigKey.LANGUAGE));
     Translation fallbackTranslation = translations.createTranslation("english");
