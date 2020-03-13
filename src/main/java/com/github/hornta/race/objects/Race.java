@@ -96,6 +96,8 @@ public class Race implements Listener {
           case RUNS:
             order = o2.getRuns() - o1.getRuns();
             break;
+          case FASTEST:
+            //can't do anything here, as we would have to create many sorted results for 1 stat type
           default:
             order = 0;
         }
@@ -165,6 +167,23 @@ public class Race implements Listener {
 
   public Set<RacePlayerStatistic> getResults(RaceStatType type) {
     return resultsByStat.get(type);
+  }
+
+  public Set<RacePlayerStatistic> getResultsForLapCount(int laps) {
+
+      Set<RacePlayerStatistic> stats = new TreeSet<>((RacePlayerStatistic o1, RacePlayerStatistic o2) -> {
+        int order = (int)(o1.getRecord(laps) - o2.getRecord(laps));
+        if(order == 0) {
+          return o1.getPlayerId().compareTo(o2.getPlayerId());
+        } else {
+          return order;
+        }
+      });
+      stats.addAll(getResults(RaceStatType.FASTEST_LAP));
+      stats.removeIf(entry -> {
+        return entry.getRecord(laps) == Long.MAX_VALUE;
+      });
+      return stats;   
   }
 
   public Map<UUID, RacePlayerStatistic> getResultByPlayerId() {

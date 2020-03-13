@@ -511,6 +511,7 @@ public class Racing extends JavaPlugin {
       .addCommand("racing top")
       .withArgument(raceArgument)
       .withArgument(statArgument)
+      .withArgument(lapsArgument)
       .withHandler(new CommandTop(racingManager))
       .requiresPermission(Permission.COMMAND_TOP.toString())
       .requiresPermission(Permission.RACING_PLAYER.toString());
@@ -679,6 +680,7 @@ public class Racing extends JavaPlugin {
       .add(MessageKey.RACE_INFO_POTION_EFFECT, "commands.race_info.potion_effect_item")
       .add(MessageKey.RACE_INFO_ENTRY_FEE_LINE, "commands.race_info.entry_fee_line")
       .add(MessageKey.RACE_TOP_TYPE_FASTEST, "commands.race_top.types.fastest")
+      .add(MessageKey.RACE_TOP_TYPE_FASTEST_LAP, "commands.race_top.types.fastest_lap")
       .add(MessageKey.RACE_TOP_TYPE_MOST_RUNS, "commands.race_top.types.most_runs")
       .add(MessageKey.RACE_TOP_TYPE_MOST_WINS, "commands.race_top.types.most_wins")
       .add(MessageKey.RACE_TOP_TYPE_WIN_RATIO, "commands.race_top.types.win_ratio")

@@ -22,7 +22,8 @@ public class CommandTop extends RacingCommand implements ICommandHandler {
   public void handle(CommandSender commandSender, String[] args, int typedArgs) {
     Race race = racingManager.getRace(args[0]);
     RaceStatType statType = RaceStatType.valueOf(args[1].toUpperCase(Locale.ENGLISH));
-    Set<RacePlayerStatistic> results = race.getResults(statType);
+    int laps = Integer.parseInt(args[2]);
+    Set<RacePlayerStatistic> results = (statType == RaceStatType.FASTEST) ? race.getResultsForLapCount(laps) : race.getResults(statType);
 
     MessageManager.setValue("type", MessageManager.getMessage(statType.getKey()));
     MessageManager.setValue("race_name", race.getName());
@@ -34,6 +35,9 @@ public class CommandTop extends RacingCommand implements ICommandHandler {
       switch (statType) {
         case WIN_RATIO:
           value = (int)((float)result.getWins() / result.getRuns() * 100) + "%";
+          break;
+        case FASTEST:
+          value = Util.getTimeLeft(result.getRecord(laps));
           break;
         case FASTEST_LAP:
           value = Util.getTimeLeft(result.getFastestLap());
