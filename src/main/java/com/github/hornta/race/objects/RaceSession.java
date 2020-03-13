@@ -272,7 +272,7 @@ public class RaceSession implements Listener {
       tryIncrementCheckpoint(session);
       startPointIndex += 1;
       team.addEntry(session.getPlayer().getName());
-      scoreboardManager.addScoreboard(session.getPlayer(), race.getName());
+      scoreboardManager.addScoreboard(session.getPlayer(), race.getName(), this.laps);
       scoreboardManager.updateWorldRecord(session.getPlayer(), worldRecord);
       scoreboardManager.updateWorldRecordHolder(session.getPlayer(), worldRecordHolder);
       scoreboardManager.updateWorldRecordFastestLap(session.getPlayer(), worldRecordFastestLap);

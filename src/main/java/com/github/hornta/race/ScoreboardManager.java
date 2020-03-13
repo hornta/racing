@@ -65,7 +65,7 @@ public class ScoreboardManager {
     configMap.put(RACE_CURRENT_LAP_TIME, Racing.getInstance().getConfiguration().get(ConfigKey.SCOREBOARD_LAP_TIME));
     configMap.put(RACE_FASTEST_LAP_TIME, Racing.getInstance().getConfiguration().get(ConfigKey.SCOREBOARD_FASTEST_LAP));
 
-    translationMap.put(HEADING, convertHeading("Racing"));
+    translationMap.put(HEADING, convertHeading("Racing", 1));
     translationMap.put(NO_TIME_STATS, MessageManager.getMessage(MessageKey.SCOREBOARD_NO_TIME_STATS));
     translationMap.put(NO_NAME_STATS, MessageManager.getMessage(MessageKey.SCOREBOARD_NO_NAME_STATS));
     translationMap.put(WORLD_RECORD, MessageManager.getMessage(MessageKey.SCOREBOARD_WORLD_RECORD));
@@ -82,11 +82,11 @@ public class ScoreboardManager {
     return enabled;
   }
 
-  public void addScoreboard(Player player, String raceName)
+  public void addScoreboard(Player player, String raceName, int laps)
   {
     if (this.enabled)
     {
-      translationMap.put(HEADING, convertHeading(raceName));
+      translationMap.put(HEADING, convertHeading(raceName, laps));
       Scoreboard board = setupScoreboard(player);
       Team team = board.registerNewTeam(SCOREBOARD_OBJECTIVE);
       team.addEntry(player.getName());
@@ -299,8 +299,8 @@ public class ScoreboardManager {
     playerBoard.objective.getScore(scoreboardKey).setScore(playerBoard.decreaseAndGetCount());
   }
 
-  private String convertHeading(String heading) {
-    return headingFormat.replace("<heading>", heading);
+  private String convertHeading(String heading, int laps) {
+    return headingFormat.replace("<heading>", heading).replace("<laps>", Integer.toString(laps));
   }
 
   private String convertTitle(String title) {

@@ -202,7 +202,7 @@ timeunit.day: "day"
 timeunit.days: "days"
 timeunit.now: "now"
 
-scoreboard.heading_format: "§b§l== <heading> =="
+scoreboard.heading_format: "§b§l== <heading> (<laps> Laps)=="
 scoreboard.title_format: "§b<title>"
 scoreboard.text_format: "§f<text>"
 scoreboard.world_record: "World Record:"
