@@ -267,6 +267,18 @@ public class Racing extends JavaPlugin {
       )
       .requiresPermission(Permission.COMMAND_SET_TYPE.toString())
       .requiresPermission(Permission.RACING_MODIFY.toString());
+      
+    carbon
+      .addCommand("racing setStartOrder")
+      .withHandler(new CommandSetStartOrder(racingManager))
+      .withArgument(raceArgument)
+      .withArgument(
+        new CarbonArgument.Builder("stat")
+          .setHandler(new StartOrderArgumentHandler())
+          .create()
+      )
+      .requiresPermission(Permission.COMMAND_SET_START_ORDER.toString())
+      .requiresPermission(Permission.RACING_MODIFY.toString());
 
     if(economy != null) {
       carbon
@@ -372,7 +384,6 @@ public class Racing extends JavaPlugin {
       .requiresPermission(Permission.COMMAND_ADD_STARTPOINT.toString())
       .requiresPermission(Permission.RACING_MODIFY.toString())
       .preventConsoleCommandSender();
-
 
     CarbonArgument startPointArgument =
       new CarbonArgument.Builder("point")
@@ -632,6 +643,8 @@ public class Racing extends JavaPlugin {
       .add(MessageKey.LIST_RACES_ITEM, "commands.list_races.race_list_item")
       .add(MessageKey.RACE_SET_TYPE_SUCCESS, "commands.race_set_type.success")
       .add(MessageKey.RACE_SET_TYPE_NOCHANGE, "commands.race_set_type.error_nochange")
+      .add(MessageKey.RACE_SET_START_ORDER_SUCCESS, "commands.race_set_start_order.success")
+      .add(MessageKey.RACE_SET_START_ORDER_NOCHANGE, "commands.race_set_start_order.error_nochange")
       .add(MessageKey.RACE_SET_SONG_SUCCESS, "commands.race_set_song.success")
       .add(MessageKey.RACE_SET_SONG_NOCHANGE, "commands.race_set_song.error_nochange")
       .add(MessageKey.RACE_UNSET_SONG_SUCCESS, "commands.race_unset_song.success")
@@ -695,6 +708,7 @@ public class Racing extends JavaPlugin {
       .add(MessageKey.STARTPOINT_NOT_FOUND, "validators.startpoint_not_found")
       .add(MessageKey.STARTPOINT_ALREADY_EXIST, "validators.startpoint_already_exist")
       .add(MessageKey.TYPE_NOT_FOUND, "validators.type_not_found")
+      .add(MessageKey.START_ORDER_NOT_FOUND, "validators.start_order_not_found")
       .add(MessageKey.STATE_NOT_FOUND, "validators.state_not_found")
       .add(MessageKey.SONG_NOT_FOUND, "validators.song_not_found")
       .add(MessageKey.VALIDATE_NON_INTEGER, "validators.validate_non_integer")

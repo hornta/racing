@@ -26,6 +26,9 @@ commands:
   race_set_type:
     success: "§eRace type changed from `<old_type>` to `<new_type>`."
     error_nochange: "§cRace type is already set to `<type>`."
+  race_set_start_order:
+    success: "§eStart Order changed from `<old_order>` to `<new_order>`."
+    error_nochange: "§cStart Order is already set to `<order>`."
   race_set_song:
     success: "§eRace song changed from `<old_song>` to `<new_song>`."
     error_nochange: "§cRace song is already set to `<song>`."
@@ -123,6 +126,7 @@ validators:
   startpoint_not_found: "§cA start point with position `<position>` in race `<race_name>` couldn't be found."
   startpoint_already_exist: "§cThere is already a start point with position `<position>` in race `<race_name>`."
   type_not_found: "§cThere is no type called `<type>`. Possible types: <types>."
+  start_order_not_found: "§cThere is no start order called `<order>`. Possible orders: <orders>."
   state_not_found: "§cThere is no state called `<state>`. Possible states: <states>."
   song_not_found: "§cThere is not song called `<song_name>`."
   validate_non_integer: "§cExpected argument `<argument>` to be an integer but got `<received>`.\n\nUsage:\n<help_text>"

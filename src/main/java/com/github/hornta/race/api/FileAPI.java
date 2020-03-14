@@ -7,6 +7,7 @@ import com.github.hornta.race.enums.RaceCommandType;
 import com.github.hornta.race.enums.RaceState;
 import com.github.hornta.race.enums.RaceType;
 import com.github.hornta.race.enums.RaceVersion;
+import com.github.hornta.race.enums.StartOrder;
 import com.github.hornta.race.objects.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -39,6 +40,7 @@ public class FileAPI implements RacingAPI {
   private static final String NAME_FIELD = "name";
   private static final String STATE_FIELD = "state";
   private static final String TYPE_FIELD = "type";
+  private static final String START_ORDER_FIELD = "start_order";
   private static final String SONG_FIELD = "song";
   private static final String CREATED_AT_FIELD = "created_at";
   public static final String ENTRY_FEE_FIELD = "entry_fee";
@@ -161,6 +163,7 @@ public class FileAPI implements RacingAPI {
       yaml.set(NAME_FIELD, race.getName());
       yaml.set(STATE_FIELD, race.getState().name());
       yaml.set(TYPE_FIELD, race.getType().name());
+      yaml.set(START_ORDER_FIELD, race.getStartOrder().name());
       yaml.set(SONG_FIELD, race.getSong());
       yaml.set(CREATED_AT_FIELD, race.getCreatedAt().getEpochSecond());
       yaml.set(ENTRY_FEE_FIELD, race.getEntryFee());
@@ -357,6 +360,13 @@ public class FileAPI implements RacingAPI {
       throw new ParseRaceException("`" + TYPE_FIELD + "` is invalid");
     }
 
+    StartOrder startOrder;
+    try {
+      startOrder = StartOrder.valueOf(yaml.getString(START_ORDER_FIELD));
+    } catch (IllegalArgumentException ex) {
+      throw new ParseRaceException("`" + START_ORDER_FIELD + "` is invalid");
+    }
+
     RaceState state;
     try {
       state = RaceState.valueOf(yaml.getString(STATE_FIELD));
@@ -429,6 +439,7 @@ public class FileAPI implements RacingAPI {
       checkpoints,
       startPoints,
       type,
+      startOrder,
       song,
       entryFee,
       walkSpeed,

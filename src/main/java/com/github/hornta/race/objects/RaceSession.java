@@ -235,9 +235,6 @@ public class RaceSession implements Listener {
     }
     team.setAllowFriendlyFire(Racing.getInstance().getConfiguration().get(ConfigKey.FRIENDLY_FIRE_COUNTDOWN));
 
-    List<RacePlayerSession> shuffledSessions = new ArrayList<>(playerSessions.values());
-    Collections.shuffle(shuffledSessions);
-
     if(Racing.getInstance().getConfiguration().<Boolean>get(ConfigKey.CHECKPOINT_PARTICLES_DURING_RACE)) {
       for (int i = 0; i < race.getCheckpoints().size(); ++i) {
         race.getCheckpoints().get(i).startTask(false, i == race.getCheckpoints().size() - 1);
@@ -264,7 +261,7 @@ public class RaceSession implements Listener {
       worldRecordFastestLap = statistic.getFastestLap();
       worldRecordFastestLapHolder = statistic.getPlayerName();
     }
-    for(RacePlayerSession session : shuffledSessions) {
+    for(RacePlayerSession session : getStartOrderSessions()) {
       session.setCurrentLap(1);
       session.setStartPoint(race.getStartPoints().get(startPointIndex));
       session.setBossBar(Bukkit.createBossBar(getBossBarTitle(session), BarColor.BLUE, BarStyle.SOLID));
@@ -365,6 +362,59 @@ public class RaceSession implements Listener {
          }
       }.runTaskTimer(Racing.getInstance(), ticksPerUpdate, ticksPerUpdate);
     });
+  }
+
+  private List<RacePlayerSession> getStartOrderSessions() {
+    Map<UUID, RacePlayerStatistic> resultsByPlayerId = race.getResultByPlayerId();
+    List<RacePlayerSession> startOrderSessions = new ArrayList<>(playerSessions.values());
+    switch (race.getStartOrder()) {
+      case FASTEST:
+        Collections.sort(startOrderSessions, new Comparator<RacePlayerSession>() {
+          public int compare(RacePlayerSession o1, RacePlayerSession o2){
+            long t1 = resultsByPlayerId.containsKey(o1.getPlayerId()) ? resultsByPlayerId.get(o1.getPlayerId()).getRecord(laps) : Long.MAX_VALUE;
+            long t2 = resultsByPlayerId.containsKey(o2.getPlayerId()) ? resultsByPlayerId.get(o2.getPlayerId()).getRecord(laps) : Long.MAX_VALUE;
+            return Long.compare(t1, t2);
+        }}) ;
+        break;
+      case FASTEST_LAP:
+        Collections.sort(startOrderSessions, new Comparator<RacePlayerSession>() {
+          public int compare(RacePlayerSession o1, RacePlayerSession o2){
+            long t1 = resultsByPlayerId.containsKey(o1.getPlayerId()) ? resultsByPlayerId.get(o1.getPlayerId()).getFastestLap() : Long.MAX_VALUE;
+            long t2 = resultsByPlayerId.containsKey(o2.getPlayerId()) ? resultsByPlayerId.get(o2.getPlayerId()).getFastestLap() : Long.MAX_VALUE;
+            return Long.compare(t1, t2);
+        }}) ;
+        break;
+      case SLOWEST:
+        Collections.sort(startOrderSessions, new Comparator<RacePlayerSession>() {
+          public int compare(RacePlayerSession o1, RacePlayerSession o2){
+            long t1 = resultsByPlayerId.containsKey(o1.getPlayerId()) ? resultsByPlayerId.get(o1.getPlayerId()).getRecord(laps) : Long.MAX_VALUE;
+            long t2 = resultsByPlayerId.containsKey(o2.getPlayerId()) ? resultsByPlayerId.get(o2.getPlayerId()).getRecord(laps) : Long.MAX_VALUE;
+            return Long.compare(t2, t1);
+        }}) ;
+        break;
+      case SLOWEST_LAP:
+        Collections.sort(startOrderSessions, new Comparator<RacePlayerSession>() {
+          public int compare(RacePlayerSession o1, RacePlayerSession o2){
+            long t1 = resultsByPlayerId.containsKey(o1.getPlayerId()) ? resultsByPlayerId.get(o1.getPlayerId()).getFastestLap() : Long.MAX_VALUE;
+            long t2 = resultsByPlayerId.containsKey(o2.getPlayerId()) ? resultsByPlayerId.get(o2.getPlayerId()).getFastestLap() : Long.MAX_VALUE;
+            return Long.compare(t2, t1);
+        }}) ;
+        break;
+      case RANDOM:
+        Collections.shuffle(startOrderSessions);
+        break;
+      case WINS:
+        Collections.sort(startOrderSessions, new Comparator<RacePlayerSession>() {
+          public int compare(RacePlayerSession o1, RacePlayerSession o2){
+            long t1 = resultsByPlayerId.containsKey(o1.getPlayerId()) ? resultsByPlayerId.get(o1.getPlayerId()).getWins() : 0;
+            long t2 = resultsByPlayerId.containsKey(o2.getPlayerId()) ? resultsByPlayerId.get(o2.getPlayerId()).getWins() : 0;
+            return Long.compare(t1, t2);
+        }}) ;
+        break;
+      default:
+        break;
+    }
+    return startOrderSessions;
   }
 
   public void skipToCountdown() {

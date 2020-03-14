@@ -28,6 +28,7 @@ public enum Permission {
   COMMAND_ADD_STARTPOINT("racing.command.add_startpoint"),
   COMMAND_DELETE_STARTPOINT("racing.command.delete_startpoint"),
   COMMAND_TELEPORT_STARTPOINT("racing.command.teleport_startpoint"),
+  COMMAND_SET_START_ORDER("racing.command.set_start_order"),
   COMMAND_SET_SONG("racing.command.set_song"),
   COMMAND_UNSET_SONG("racing.command.unset_song"),
   COMMAND_PLAY_SONG("racing.command.play_song"),
