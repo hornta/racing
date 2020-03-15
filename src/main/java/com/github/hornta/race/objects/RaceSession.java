@@ -58,7 +58,7 @@ public class RaceSession implements Listener {
   private RaceCountdown countdown;
   private long start;
   private int numFinished;
-  private Map<UUID, RacePlayerSession> playerSessions = new HashMap<>();
+  private Map<UUID, RacePlayerSession> playerSessions = new LinkedHashMap<>();
   private Team team;
   private RaceSessionResult result;
 
@@ -410,6 +410,12 @@ public class RaceSession implements Listener {
             long t2 = resultsByPlayerId.containsKey(o2.getPlayerId()) ? resultsByPlayerId.get(o2.getPlayerId()).getWins() : 0;
             return Long.compare(t1, t2);
         }}) ;
+        break;
+      case JOIN_ORDER:
+        //do nothing, startOrderSessions is already sorted
+        break;
+      case REVERSE_JOIN_ORDER:
+        Collections.reverse(startOrderSessions);
         break;
       default:
         break;

@@ -6,7 +6,9 @@ public enum StartOrder {
   WINS,
   SLOWEST,
   SLOWEST_LAP,
-  RANDOM;
+  RANDOM,
+  JOIN_ORDER,
+  REVERSE_JOIN_ORDER;
 
   public static StartOrder fromString(String string) {
     for(StartOrder type : values()) {
