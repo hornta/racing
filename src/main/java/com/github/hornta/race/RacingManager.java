@@ -196,7 +196,7 @@ public class RacingManager implements Listener {
   void onRaceSessionStop(RaceSessionStopEvent event) {
     raceSessions.remove(event.getRaceSession());
 
-    if ((boolean)Racing.getInstance().getConfiguration().get(ConfigKey.TELEPORT_AFTER_RACE_ENABLED)) {
+    if (Racing.getInstance().getConfiguration().<Boolean>get(ConfigKey.TELEPORT_AFTER_RACE_ENABLED)) {
       TeleportAfterRaceWhen when = Racing.getInstance().getConfiguration()
           .get(ConfigKey.TELEPORT_AFTER_RACE_ENABLED_WHEN);
       if (when == TeleportAfterRaceWhen.EVERYONE_FINISHES) {
