@@ -57,8 +57,9 @@ public class FileAPI implements RacingAPI {
   private static final String RESULTS_FIELD_PLAYER_NAME = "name";
   private static final String RESULTS_FIELD_WINS = "wins";
   private static final String RESULTS_FIELD_RUNS = "runs";
-  private static final String RESULTS_FIELD_FASTEST_LAP = "fastestLap";
-  private static final String RESULTS_FIELD_RECORDS = "records";
+  public static final String RESULTS_FIELD_DURATION = "duration";
+  public static final String RESULTS_FIELD_FASTEST_LAP = "fastestLap";
+  public static final String RESULTS_FIELD_RECORDS = "records";
   private static final String MINIMUM_REQUIRED_PARTICIPANTS_TO_START = "min_required_participants_to_start";
   private static final String PIG_SPEED_FIELD = "pig_speed";
   private static final String HORSE_SPEED_FIELD = "horse_speed";
@@ -81,6 +82,7 @@ public class FileAPI implements RacingAPI {
     migrationManager.addMigration(new HorseAttributesMigration());
     migrationManager.addMigration(new CommandsMigration());
     migrationManager.addMigration(new SignLapsMigration());
+    migrationManager.addMigration(new RaceDurationMigration());
   }
 
   @Override
