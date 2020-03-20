@@ -40,7 +40,7 @@ public class FileAPI implements RacingAPI {
   private static final String NAME_FIELD = "name";
   private static final String STATE_FIELD = "state";
   private static final String TYPE_FIELD = "type";
-  private static final String START_ORDER_FIELD = "start_order";
+  public static final String START_ORDER_FIELD = "start_order";
   private static final String SONG_FIELD = "song";
   private static final String CREATED_AT_FIELD = "created_at";
   public static final String ENTRY_FEE_FIELD = "entry_fee";
@@ -85,6 +85,7 @@ public class FileAPI implements RacingAPI {
     migrationManager.addMigration(new CommandsMigration());
     migrationManager.addMigration(new SignLapsMigration());
     migrationManager.addMigration(new RaceDurationMigration());
+    migrationManager.addMigration(new StartOrderMigration());
   }
 
   @Override
