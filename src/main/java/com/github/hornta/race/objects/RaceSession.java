@@ -369,47 +369,42 @@ public class RaceSession implements Listener {
     List<RacePlayerSession> startOrderSessions = new ArrayList<>(playerSessions.values());
     switch (race.getStartOrder()) {
       case FASTEST:
-        Collections.sort(startOrderSessions, new Comparator<RacePlayerSession>() {
-          public int compare(RacePlayerSession o1, RacePlayerSession o2){
+        Collections.sort(startOrderSessions, (RacePlayerSession o1, RacePlayerSession o2) -> {
             long t1 = resultsByPlayerId.containsKey(o1.getPlayerId()) ? resultsByPlayerId.get(o1.getPlayerId()).getRecord(laps) : Long.MAX_VALUE;
             long t2 = resultsByPlayerId.containsKey(o2.getPlayerId()) ? resultsByPlayerId.get(o2.getPlayerId()).getRecord(laps) : Long.MAX_VALUE;
             return Long.compare(t1, t2);
-        }}) ;
+        }) ;
         break;
       case FASTEST_LAP:
-        Collections.sort(startOrderSessions, new Comparator<RacePlayerSession>() {
-          public int compare(RacePlayerSession o1, RacePlayerSession o2){
+        Collections.sort(startOrderSessions, (RacePlayerSession o1, RacePlayerSession o2) -> {
             long t1 = resultsByPlayerId.containsKey(o1.getPlayerId()) ? resultsByPlayerId.get(o1.getPlayerId()).getFastestLap() : Long.MAX_VALUE;
             long t2 = resultsByPlayerId.containsKey(o2.getPlayerId()) ? resultsByPlayerId.get(o2.getPlayerId()).getFastestLap() : Long.MAX_VALUE;
             return Long.compare(t1, t2);
-        }}) ;
+        }) ;
         break;
       case SLOWEST:
-        Collections.sort(startOrderSessions, new Comparator<RacePlayerSession>() {
-          public int compare(RacePlayerSession o1, RacePlayerSession o2){
+        Collections.sort(startOrderSessions, (RacePlayerSession o1, RacePlayerSession o2) -> {
             long t1 = resultsByPlayerId.containsKey(o1.getPlayerId()) ? resultsByPlayerId.get(o1.getPlayerId()).getRecord(laps) : Long.MAX_VALUE;
             long t2 = resultsByPlayerId.containsKey(o2.getPlayerId()) ? resultsByPlayerId.get(o2.getPlayerId()).getRecord(laps) : Long.MAX_VALUE;
             return Long.compare(t2, t1);
-        }}) ;
+        }) ;
         break;
       case SLOWEST_LAP:
-        Collections.sort(startOrderSessions, new Comparator<RacePlayerSession>() {
-          public int compare(RacePlayerSession o1, RacePlayerSession o2){
+        Collections.sort(startOrderSessions, (RacePlayerSession o1, RacePlayerSession o2) -> {
             long t1 = resultsByPlayerId.containsKey(o1.getPlayerId()) ? resultsByPlayerId.get(o1.getPlayerId()).getFastestLap() : Long.MAX_VALUE;
             long t2 = resultsByPlayerId.containsKey(o2.getPlayerId()) ? resultsByPlayerId.get(o2.getPlayerId()).getFastestLap() : Long.MAX_VALUE;
             return Long.compare(t2, t1);
-        }}) ;
+        }) ;
         break;
       case RANDOM:
         Collections.shuffle(startOrderSessions);
         break;
       case WINS:
-        Collections.sort(startOrderSessions, new Comparator<RacePlayerSession>() {
-          public int compare(RacePlayerSession o1, RacePlayerSession o2){
+        Collections.sort(startOrderSessions, (RacePlayerSession o1, RacePlayerSession o2) -> {
             long t1 = resultsByPlayerId.containsKey(o1.getPlayerId()) ? resultsByPlayerId.get(o1.getPlayerId()).getWins() : 0;
             long t2 = resultsByPlayerId.containsKey(o2.getPlayerId()) ? resultsByPlayerId.get(o2.getPlayerId()).getWins() : 0;
             return Long.compare(t1, t2);
-        }}) ;
+        }) ;
         break;
       case JOIN_ORDER:
         //do nothing, startOrderSessions is already sorted
