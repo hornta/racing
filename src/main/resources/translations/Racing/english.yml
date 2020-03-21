@@ -27,8 +27,8 @@ commands:
     success: "§eRace type changed from `<old_type>` to `<new_type>`."
     error_nochange: "§cRace type is already set to `<type>`."
   race_set_start_order:
-    success: "§eStart Order changed from `<old_order>` to `<new_order>`."
-    error_nochange: "§cStart Order is already set to `<order>`."
+    success: "§eStart order changed from `<old_order>` to `<new_order>`."
+    error_nochange: "§cStart order is already set to `<order>`."
   race_set_song:
     success: "§eRace song changed from `<old_song>` to `<new_song>`."
     error_nochange: "§cRace song is already set to `<song>`."

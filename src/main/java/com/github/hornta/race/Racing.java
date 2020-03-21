@@ -273,7 +273,7 @@ public class Racing extends JavaPlugin {
       .withHandler(new CommandSetStartOrder(racingManager))
       .withArgument(raceArgument)
       .withArgument(
-        new CarbonArgument.Builder("stat")
+        new CarbonArgument.Builder("order")
           .setHandler(new StartOrderArgumentHandler())
           .create()
       )
