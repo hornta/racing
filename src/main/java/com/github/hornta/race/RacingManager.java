@@ -180,16 +180,26 @@ public class RacingManager implements Listener {
 
   @EventHandler
   void onRaceSessionResult(RaceSessionResultEvent event) {
+    List<PlayerSessionResult> sortedResults = new ArrayList<>(128);
     for (Map.Entry<RacePlayerSession, PlayerSessionResult> entry : event.getResult().getPlayerResults().entrySet()) {
-      event.getResult().getRaceSession().getRace().addResult(entry.getValue());
-      if (entry.getValue().getPosition() == 1) {
-        MessageManager.setValue("player_name", entry.getValue().getPlayerSession().getPlayerName());
+      PlayerSessionResult value = entry.getValue();
+      event.getResult().getRaceSession().getRace().addResult(value);
+      sortedResults.add(value);
+    }
+
+    sortedResults.sort(Comparator.comparingInt(PlayerSessionResult::getPosition));
+    for (PlayerSessionResult result : sortedResults) {
+      int position = result.getPosition();
+      if (position >= 1 && position <= 5) {
+        MessageManager.setValue("position", position);
+        MessageManager.setValue("player_name", result.getPlayerSession().getPlayerName());
         MessageManager.setValue("race_name", event.getResult().getRaceSession().getRace().getName());
-        MessageManager.setValue("time", Util.getTimeLeft(entry.getValue().getTime()));
+        MessageManager.setValue("time", Util.getTimeLeft(result.getTime()));
         Util.setTimeUnitValues();
         MessageManager.broadcast(MessageKey.RACE_WIN);
       }
     }
+
     updateRace(event.getResult().getRaceSession().getRace(), () -> {
     });
   }
