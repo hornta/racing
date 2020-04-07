@@ -180,20 +180,18 @@ public class RacingManager implements Listener {
 
   @EventHandler
   void onRaceSessionResult(RaceSessionResultEvent event) {
-    List<PlayerSessionResult> sortedResults = new ArrayList<>();
-    for (Map.Entry<RacePlayerSession, PlayerSessionResult> entry : event.getResult().getPlayerResults().entrySet()) {
-      PlayerSessionResult value = entry.getValue();
-      event.getResult().getRaceSession().getRace().addResult(value);
-      sortedResults.add(value);
-    }
-
+    List<PlayerSessionResult> sortedResults = new ArrayList<>(event.getResult().getPlayerResults().values());
     sortedResults.sort(Comparator.comparingInt(PlayerSessionResult::getPosition));
+
     for (PlayerSessionResult result : sortedResults) {
+      Race race = event.getResult().getRaceSession().getRace();
+      race.addResult(result);
+
       int position = result.getPosition();
-      if (position >= 1 && position <= 5) {
+      if (position <= 10) {
         MessageManager.setValue("position", position);
         MessageManager.setValue("player_name", result.getPlayerSession().getPlayerName());
-        MessageManager.setValue("race_name", event.getResult().getRaceSession().getRace().getName());
+        MessageManager.setValue("race_name", race.getName());
         MessageManager.setValue("time", Util.getTimeLeft(result.getTime()));
         Util.setTimeUnitValues();
         MessageManager.broadcast(MessageKey.RACE_PARTICIPANT_RESULT);
