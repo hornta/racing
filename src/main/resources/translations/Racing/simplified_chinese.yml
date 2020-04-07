@@ -130,7 +130,7 @@ race_start_noshow_disqualified: §e<player_name>缺席竞赛，已取消竞赛�
 race_start_quit_disqualified: §e<player_name>离开了竞赛，已取消竞赛资格.
 edit_no_edit_mode: §c不在维护模式中你无法更改竞赛 `<race_name>`. 请输入 §7/rc setstate <race_name>
   under_construction§c将竞赛置入维护模式.
-race_participant_result: "#<position>. §e<player_name>用时<time>赢得了竞赛§a<race_name>§e."
+race_participant_result: "§6#<position>. §e<player_name>用时<time>赢得了竞赛§a<race_name>§e."
 race_participate_click_text: /rc join <race_name>
 race_participate_hover_text: 点击参加.
 race_participate_text: |

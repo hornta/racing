@@ -140,7 +140,7 @@ race_start_gamemode_disqualified_target: "§eYou were disqualified since you are
 race_death_disqualified: "§e<player_name> died during the race and is now disqualified."
 race_death_disqualified_target: "§eYou died and is therefore disqualified. Better luck next time."
 edit_no_edit_mode: "§cYou can't change race `<race_name>` because it's not under construction. Type §7/rc setstate <race_name> under_construction§c to put it under construction."
-race_participant_result: "#<position>. §e<player_name> has finished race §a<race_name>§e with time <time>."
+race_participant_result: "§6#<position>. §e<player_name> has finished race §a<race_name>§e with time <time>."
 race_participate_click_text: "/rc join <race_name>"
 race_participate_hover_text: "Click here to participate."
 race_participate_text: |
