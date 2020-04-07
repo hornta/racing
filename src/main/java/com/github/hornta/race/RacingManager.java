@@ -180,7 +180,7 @@ public class RacingManager implements Listener {
 
   @EventHandler
   void onRaceSessionResult(RaceSessionResultEvent event) {
-    List<PlayerSessionResult> sortedResults = new ArrayList<>(128);
+    List<PlayerSessionResult> sortedResults = new ArrayList<>();
     for (Map.Entry<RacePlayerSession, PlayerSessionResult> entry : event.getResult().getPlayerResults().entrySet()) {
       PlayerSessionResult value = entry.getValue();
       event.getResult().getRaceSession().getRace().addResult(value);
