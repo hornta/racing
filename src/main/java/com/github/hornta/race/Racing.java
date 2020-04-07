@@ -698,7 +698,7 @@ public class Racing extends JavaPlugin {
       .add(MessageKey.DEATH_DISQUALIFIED, "race_death_disqualified")
       .add(MessageKey.DEATH_DISQUALIFIED_TARGET, "race_death_disqualified_target")
       .add(MessageKey.EDIT_NO_EDIT_MODE, "edit_no_edit_mode")
-      .add(MessageKey.RACE_WIN, "race_win")
+      .add(MessageKey.RACE_PARTICIPANT_RESULT, "race_participant_result")
       .add(MessageKey.PARTICIPATE_CLICK_TEXT, "race_participate_click_text")
       .add(MessageKey.PARTICIPATE_HOVER_TEXT, "race_participate_hover_text")
       .add(MessageKey.PARTICIPATE_TEXT, "race_participate_text")

@@ -196,7 +196,7 @@ public class RacingManager implements Listener {
         MessageManager.setValue("race_name", event.getResult().getRaceSession().getRace().getName());
         MessageManager.setValue("time", Util.getTimeLeft(result.getTime()));
         Util.setTimeUnitValues();
-        MessageManager.broadcast(MessageKey.RACE_WIN);
+        MessageManager.broadcast(MessageKey.RACE_PARTICIPANT_RESULT);
       }
     }
 
