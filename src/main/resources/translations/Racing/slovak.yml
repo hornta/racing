@@ -141,7 +141,7 @@ race_start_gamemode_disqualified_target: "§eBol si diskvalifikovaný, kedže si
 race_death_disqualified: "§e<player_name> zomrel počas preteku a teraz je diskvalifikovaný."
 race_death_disqualified_target: "§eZomrel si, tým pádom si diskvalifikovaný. Veľa štastia nabudúce."
 edit_no_edit_mode: "§cNemôžeš upraviť pretek `<race_name>` pretože nie je vo výstavbe. Napíš §7/rc setstate <race_name> under_construction§c pre umiestnenie do výstavby."
-race_participant_result: "§e#<position> <player_name> vyhral pretek §a<race_name>§e s časom <time>."
+race_participant_result: "#<position>. §e<player_name> vyhral pretek §a<race_name>§e s časom <time>."
 race_participate_click_text: "/rc join <race_name>"
 race_participate_hover_text: "Klikni sem pre účasť."
 race_participate_text: |

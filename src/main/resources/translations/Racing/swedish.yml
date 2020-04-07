@@ -140,7 +140,7 @@ race_start_quit_disqualified: "§e<player_name> lämnade och är därmed diskval
 race_death_disqualified: "§e<player_name> dog och är därmed diskvalificerad."
 race_death_disqualified_target: "§eDu dog och är därmed diskvalificerad. Bättre lycka nästa gång."
 edit_no_edit_mode: "§cDu kan inte ändra på race `<race_name>` eftersom racet inte är under konstruktion. Skriv §7/rc setstate <race_name> under_construction§c för att sätta det under konstruktion."
-race_participant_result: "§e#<position> <player_name> har vunnit race §a<race_name>§e med tiden <time>."
+race_participant_result: "#<position>. §e<player_name> har vunnit race §a<race_name>§e med tiden <time>."
 race_participate_click_text: "/rc join <race_name>"
 race_participate_hover_text: "Klicka för att delta"
 race_participate_text: |
