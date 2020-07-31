@@ -21,6 +21,7 @@ public enum Permission {
   COMMAND_SET_ENTRY_FEE("racing.command.set_entry_fee"),
   COMMAND_SET_WALK_SPEED("racing.command.set_walk_speed"),
   COMMAND_SET_PIG_SPEED("racing.command.set_pig_speed"),
+  COMMAND_SET_ELYTRA_SPEED("racing.command.set_elytra_speed"),
   COMMAND_SET_STRIDER_SPEED("racing.command.set_strider_speed"),
   COMMAND_SET_HORSE_SPEED("racing.command.set_horse_speed"),
   COMMAND_SET_HORSE_JUMP_STRENGTH("racing.command.set_horse_jump_strength"),

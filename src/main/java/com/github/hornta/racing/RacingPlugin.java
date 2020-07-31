@@ -1,5 +1,6 @@
 package com.github.hornta.racing;
 
+import com.github.hornta.racing.commands.*;
 import se.hornta.commando.CarbonArgument;
 import se.hornta.commando.CarbonArgumentType;
 import se.hornta.commando.CarbonCommand;
@@ -14,46 +15,6 @@ import se.hornta.messenger.Translation;
 import se.hornta.messenger.Translations;
 import com.github.hornta.racing.api.FileAPI;
 import com.github.hornta.racing.api.StorageType;
-import com.github.hornta.racing.commands.CommandAddCheckpoint;
-import com.github.hornta.racing.commands.CommandAddPotionEffect;
-import com.github.hornta.racing.commands.CommandAddStartPoint;
-import com.github.hornta.racing.commands.CommandClearPotionEffects;
-import com.github.hornta.racing.commands.CommandCreateRace;
-import com.github.hornta.racing.commands.CommandDeleteCheckpoint;
-import com.github.hornta.racing.commands.CommandDeleteRace;
-import com.github.hornta.racing.commands.CommandDeleteStartPoint;
-import com.github.hornta.racing.commands.CommandHelp;
-import com.github.hornta.racing.commands.CommandInfo;
-import com.github.hornta.racing.commands.CommandJoinRace;
-import com.github.hornta.racing.commands.CommandLeave;
-import com.github.hornta.racing.commands.CommandMoveCheckpoint;
-import com.github.hornta.racing.commands.CommandMoveStartPoint;
-import com.github.hornta.racing.commands.CommandPlaySong;
-import com.github.hornta.racing.commands.CommandRaceSetSpawn;
-import com.github.hornta.racing.commands.CommandRaceSpawn;
-import com.github.hornta.racing.commands.CommandRaceTeleportPoint;
-import com.github.hornta.racing.commands.CommandRaceTeleportStart;
-import com.github.hornta.racing.commands.CommandRaces;
-import com.github.hornta.racing.commands.CommandReload;
-import com.github.hornta.racing.commands.CommandRemovePotionEffect;
-import com.github.hornta.racing.commands.CommandResetTop;
-import com.github.hornta.racing.commands.CommandSetEntryFee;
-import com.github.hornta.racing.commands.CommandSetHorseJumpStrength;
-import com.github.hornta.racing.commands.CommandSetHorseSpeed;
-import com.github.hornta.racing.commands.CommandSetPigSpeed;
-import com.github.hornta.racing.commands.CommandSetRaceName;
-import com.github.hornta.racing.commands.CommandSetRaceState;
-import com.github.hornta.racing.commands.CommandSetSong;
-import com.github.hornta.racing.commands.CommandSetStartOrder;
-import com.github.hornta.racing.commands.CommandSetStriderSpeed;
-import com.github.hornta.racing.commands.CommandSetType;
-import com.github.hornta.racing.commands.CommandSetWalkSpeed;
-import com.github.hornta.racing.commands.CommandSkipWait;
-import com.github.hornta.racing.commands.CommandStartRace;
-import com.github.hornta.racing.commands.CommandStopRace;
-import com.github.hornta.racing.commands.CommandStopSong;
-import com.github.hornta.racing.commands.CommandTop;
-import com.github.hornta.racing.commands.CommandUnsetSong;
 import com.github.hornta.racing.commands.argumentHandlers.CheckpointArgumentHandler;
 import com.github.hornta.racing.commands.argumentHandlers.RaceArgumentHandler;
 import com.github.hornta.racing.commands.argumentHandlers.RacePotionEffectArgumentHandler;
@@ -349,6 +310,7 @@ public class RacingPlugin extends JavaPlugin {
     m.add(MessageKey.RACE_SET_ENTRYFEE, "commands.race_set_entryfee.success");
     m.add(MessageKey.RACE_SET_WALKSPEED, "commands.race_set_walkspeed.success");
     m.add(MessageKey.RACE_SET_PIG_SPEED, "commands.race_set_pig_speed.success");
+    m.add(MessageKey.RACE_SET_ELYTRA_SPEED, "commands.race_set_elytra_speed.success");
     m.add(MessageKey.RACE_SET_STRIDER_SPEED, "commands.race_set_strider_speed.success");
     m.add(MessageKey.RACE_SET_HORSE_SPEED, "commands.race_set_horse_speed.success");
     m.add(MessageKey.RACE_SET_HORSE_JUMP_STRENGTH, "commands.race_set_horse_jump_strength.success");
@@ -722,6 +684,14 @@ public class RacingPlugin extends JavaPlugin {
       .withArgument(raceArgument)
       .withArgument(speedArgument)
       .requiresPermission(Permission.COMMAND_SET_PIG_SPEED.toString())
+      .requiresPermission(Permission.RACING_MODIFY.toString());
+
+    commando
+      .addCommand("racing setelytraspeed")
+      .withHandler(new CommandSetElytraSpeed(racingManager))
+      .withArgument(raceArgument)
+      .withArgument(speedArgument)
+      .requiresPermission(Permission.COMMAND_SET_ELYTRA_SPEED.toString())
       .requiresPermission(Permission.RACING_MODIFY.toString());
 
     commando

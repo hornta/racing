@@ -92,6 +92,8 @@ commands:
     success: "§eWalk speed has been set to <walk_speed>."
   race_set_pig_speed:
     success: "§ePig speed has been set to <speed>."
+  race_set_elytra_speed:
+    success: "§eElytra speed has been set to <speed>. To disable the speed multiplier, set the Elytra speed to 0."
   race_set_strider_speed:
     success: "§eStrider speed has been set to <speed>."
   race_set_horse_speed:

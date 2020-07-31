@@ -38,6 +38,7 @@ public class Race implements Listener {
   private final Set<RaceSign> signs;
   private final int minimimRequiredParticipantsToStart;
   private double pigSpeed;
+  private double elytraSpeed;
   private double striderSpeed;
   private double horseSpeed;
   private double horseJumpStrength;
@@ -65,6 +66,7 @@ public class Race implements Listener {
     Set<RacePlayerStatistic> results,
     int minimimRequiredParticipantsToStart,
     double pigSpeed,
+    double elytraSpeed,
     double striderSpeed,
     double horseSpeed,
     double horseJumpStrength,
@@ -87,6 +89,7 @@ public class Race implements Listener {
     this.signs = signs;
     this.minimimRequiredParticipantsToStart = minimimRequiredParticipantsToStart;
     this.pigSpeed = pigSpeed;
+    this.elytraSpeed = elytraSpeed;
     this.striderSpeed = striderSpeed;
     this.horseSpeed = horseSpeed;
     this.horseJumpStrength = horseJumpStrength;
@@ -380,12 +383,20 @@ public class Race implements Listener {
     return pigSpeed;
   }
 
+  public double getElytraSpeed() {
+    return elytraSpeed;
+  }
+
   public double getStriderSpeed() {
     return striderSpeed;
   }
 
   public void setPigSpeed(double pigSpeed) {
     this.pigSpeed = pigSpeed;
+  }
+
+  public void setElytraSpeed(double elytraSpeed) {
+    this.elytraSpeed = elytraSpeed;
   }
 
   public void setStriderSpeed(double striderSpeed) {
