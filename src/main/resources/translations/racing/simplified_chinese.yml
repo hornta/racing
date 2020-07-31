@@ -1,71 +1,71 @@
 commands:
   create_race:
-    success: §e已创建竞赛 `<race_name>` .
+    success: §e已创建竞赛 `<race_name>`。
     error_name_occupied: §c已经有名为`<race_name>`的竞赛了.
   delete_race:
-    success: §e已删除竞赛`<race_name>`.
+    success: §e已删除竞赛`<race_name>`。
   change_race_name:
-    success: §e竞赛名已从 `<old_name>` 更改为 `<new_name>`.
+    success: §e竞赛名已从 `<old_name>` 更改为 `<new_name>`。
   race_add_checkpoint:
-    success: §e已为竞赛`<race_name>`创建新的记录点 `<position>` .
+    success: §e已为竞赛`<race_name>`创建新的记录点 `<position>`。
     error_is_occupied: §c这个位置已经有记录点了.
-    error_position_out_of_bounds: "§cMax position you can enter for this checkpoint is <max>."
+    error_position_out_of_bounds: "§c触发该记录点的最大范围为<max>。"
   race_delete_checkpoint:
-    success: §e已删除竞赛 `<race_name>`的记录点`<position>`.
+    success: §e已删除竞赛 `<race_name>`的记录点`<position>`。
   race_move_checkpoint:
-    success: "§eCheckpoint `<position>` for race `<race_name>` was moved to <x>, <y>, <z> in world `<world>`."
-    error_no_change: "§eCheckpoint `<position>` is already in this location."
-    error_occupied: "§cThere is already a checkpoint in this location."
+    success: "§e`<race_name>`的记录点`<position>`移到了世界`<world>`的 <x>, <y>, <z> 。"
+    error_no_change: "§e记录点`<position>`已在该位置。"
+    error_occupied: "§c这里已有记录点。"
   race_add_startpoint:
-    success: §e已为竞赛`<race_name>`创建新的起点 `<position>`.
+    success: §e已为竞赛`<race_name>`创建新的起点 `<position>`。
     error_is_occupied: §c这个位置已经有起点了.
-    error_position_out_of_bounds: "§cMax position you can enter for this start point is <max>."
+    error_position_out_of_bounds: "§c触发该起点的最大范围为<max>。"
   race_delete_startpoint:
-    success: §e已删除竞赛 `<race_name>`的起点`<position>`.
+    success: §e已删除竞赛 `<race_name>`的起点`<position>`。
   race_move_startpoint:
-    success: "§Start point `<position>` for race `<race_name>` was moved to <x>, <y>, <z> in world `<world>`."
-    error_no_change: "§Start point `<position>` is already in this location."
-    error_occupied: "§cThere is already a start point in this location."
+    success: "§`<race_name>`的起点`<position>`移到了世界`<world>`的 <x>, <y>, <z>,。"
+    error_no_change: "§起点`<position>`已在该位置。"
+    error_occupied: "§c这里已有起点。"
   race_spawn:
     error_not_enabled: §c这个竞赛暂未开放.
   race_set_spawn:
-    success: §e竞赛`<race_name>` 的传送点已设置在世界`<world>`的 <x>, <y>, <z> .
+    success: §e竞赛`<race_name>`的传送点已设置在世界`<world>`的 <x>, <y>, <z> .
   list_races:
     race_list: '竞赛 (<num_race>): <races>'
     race_list_item: §b<race>
   race_set_type:
-    success: §e竞赛类型已从 `<old_type>`更改为`<new_type>`.
-    error_nochange: §c竞赛类型已更改为`<type>`.
+    success: §e竞赛类型已从 `<old_type>`更改为`<new_type>`。
+    error_nochange: §c竞赛类型已更改为`<type>`。
   race_set_start_order:
-    success: "§eStart order changed from `<old_order>` to `<new_order>`."
-    error_nochange: "§cStart order is already set to `<order>`."
+    success: "§e出场顺序从`<old_order>`变为`<new_order>`。"
+    error_nochange: "§c出场顺序已设置为`<order>`。"
   race_set_song:
-    success: §e竞赛音乐已从 `<old_song>`更改为`<new_song>`.
-    error_nochange: §c竞赛音乐已设置为`<song>`.
+    success: §e竞赛音乐已从`<old_song>`更改为`<new_song>`。
+    error_nochange: §c竞赛音乐已设置为`<song>`。
   race_unset_song:
     success: §e已删除竞赛音乐.
-    error_already_unset: §c该竞赛未设置音乐.
+    error_already_unset: §c该竞赛未设置音乐。
   start_race:
-    error_already_started: §c竞赛已经开始.
-    error_missing_startpoint: §c竞赛至少要有一个起点.
-    error_missing_checkpoint: §c竞赛至少要有一个记录点.
-    error_missing_checkpoints: §c竞赛至少要有两个记录点.
-    error_not_enabled: §c必须开放竞赛才能开始. 请输入 §7/rc setstate <race_name> enabled §c来开放竞赛.
-    error_no_enabled: §c没有可以参加的竞赛.
+    error_already_started: §c竞赛已经开始。
+    error_missing_startpoint: §c竞赛至少要有一个起点。
+    error_missing_checkpoint: §c竞赛至少要有一个记录点。
+    error_missing_checkpoints: §c竞赛至少要有两个记录点。
+    error_not_enabled: §c必须开放竞赛才能开始. 请输入 §7/rc setstate <race_name> enabled §c来开放竞赛。
+    error_no_enabled: §c没有可以参加的竞赛。
   stop_race:
     success: §e已停止竞赛.
     error_not_started: §c未开始竞赛.
   join_race:
-    success: §e<player_name>进入了竞赛`<race_name>`. (<current_participants>/<max_participants>名参与者)
+    success: §e<player_name>进入了竞赛`<race_name>`。 (<current_participants>/<max_participants>名参与者)
     charged: §e你消耗了<fee>来参加竞赛.
     error_not_open: §c该竞赛暂未开放.
     error_is_full: §c抱歉，竞赛名额已满.
     error_is_participating: §c你已加入该竞赛.
     error_is_participating_other: §c你已加入另一场竞赛.
-    error_not_afford: §c你支付不起竞赛所需的入场费. 入场费为 <entry_fee>，但你的荷包里只有<balance>.
-    error_game_mode: "§cYou can't join this race when in game mode `<game_mode>`."
+    error_not_afford: §c你支付不起竞赛所需的入场费. 入场费为 <entry_fee>，但你的荷包里只有<balance>。
+    error_game_mode: "§c你不能在`<game_mode>`游戏模式下加入竞赛。"
     error_world: |-
-      §cYou can't join this race from your current world.
+      §c你不能在当前世界加入竞赛。
   race_skip_wait:
     error_not_started: §c必须开始竞赛才能跳过准备阶段.
   reload:
@@ -78,37 +78,37 @@ commands:
       Reason: <reason>
     not_races: §c无法重载插件，因为有竞赛正在进行中.
     races_failed: "§cRaces couldn't be reloaded. Error: <error>"
-    not_language: "§cLanguage has not been reloaded because the language `<language>` couldn't be found."
+    not_language: "§cLanguage has not been reloaded because the language `<language>` couldn't be found。"
   race_set_state:
-    success: §e状态已从`<old_state>`更改为`<new_state>`.
-    error_nochange: §c状态已设置为`<state>`.
+    success: §e状态已从`<old_state>`更改为`<new_state>`。
+    error_nochange: §c状态已设置为`<state>`。
     error_ongoing: §c竞赛进行中，无法更改状态.
   race_help:
     title: §6§m----§r§6[ §e竞赛帮助 §6]§m----
     item: §e<text>
   race_set_entryfee:
-    success: §e入场费已设置为 <entry_fee>.
+    success: §e入场费已设置为 <entry_fee>。
   race_set_walkspeed:
-    success: §e行走速度已设置为<walk_speed>.
+    success: §e行走速度已设置为<walk_speed>。
   race_set_pig_speed:
-    success: "§ePig speed has been set to <speed>."
+    success: "§e猪的移速已设置为<speed>。"
   race_set_strider_speed:
-    success: "§eStrider speed has been set to <speed>."
+    success: "§e炽足兽的移速已设置为<speed>。"
   race_set_horse_speed:
-    success: "§eHorse speed has been set to <speed>."
+    success: "§e马的移速已设置为<speed>。"
   race_set_horse_jump_strength:
-    success: "§eHorse jump strength has been set to <jump_strength>."
+    success: "§e马的跳跃高度已设置为<jump_strength>。"
   race_add_potion_effect:
-    success: §e已在竞赛 `<race_name>`内设置药水效果：`<potion_effect>` `<amplifier>` .
+    success: §e已在竞赛 `<race_name>`内设置药水效果：`<potion_effect>` `<amplifier>`。
   race_remove_potion_effect:
     success: §e已删除竞赛`<race_name>`中的`<potion_effect>`药水效果.
   race_clear_potion_effects:
     success: §e已删除`<race_name>`内的所有药水效果.
   race_leave:
     error_not_participating: §c你没有参加任何竞赛.
-    success: §e你离开了竞赛`<race_name>`.
-    leave_broadcast: §e<player_name>离开了竞赛`<race_name>`.
-    leave_payback: §e已退回给你入场费<entry_fee>.
+    success: §e你离开了竞赛`<race_name>`。
+    leave_broadcast: §e<player_name>离开了竞赛`<race_name>`。
+    leave_payback: §e已退回给你入场费<entry_fee>。
   race_info:
     success: |
       §6§m----§r§6[ §e竞赛信息 §6]§m----
@@ -126,51 +126,51 @@ commands:
     entry_fee_line: "§e入场费: §f<entry_fee>\n"
   race_top:
     types:
-      fastest: 'Fastest run for <laps> <lap_word>'
-      fastest_lap: 'Fastest Lap'
-      most_runs: 'Most runs'
-      most_wins: 'Most wins'
-      win_ratio: 'Win ratio'
-    header: "§9<type> §ein race §a<race_name>"
+      fastest: '<laps> <lap_word>的最速纪录'
+      fastest_lap: '最速圈速'
+      most_runs: '最多场数'
+      most_wins: '最多胜场数'
+      win_ratio: '胜率'
+    header: "§e在竞赛§a<race_name>中的§9<type>"
     item: "§e#<position> §f<player_name> §8- §e<value>"
     item_none: "§e#<position> §f-"
   race_reset_top:
-    success: '§eLeaderboard for race §a<race_name> §e has been reset.'
+    success: '§e§a<race_name>§e的排行榜已重置。'
   hd_top_list_create:
     success: |-
-      §eHologram top list was created.
+      §e全息排行榜已创建。
     already_exist: |-
-      §cThere is already a hologram top list with name `<name>`.
+      §c已有名为`<name>`的全息排行榜。
     error_no_persist: |-
-      §cHologram top list couldn't be saved to file. Check your console for a more detailed error to solve it otherwise the hologram top list will be removed on the next restart.
+      §c全息排行榜无法保存到文件内。请查看控制台报错，该全息排行榜会在下次重启时被删除。
   hd_top_list_delete:
     success: |-
-      §eHologram top list was removed.
+      §e全息排行榜已删除。
     error_fail_delete_file: |-
-      §cHologram top list file couldn't be removed. Try and delete the file manually otherwise the hologram top list would be created on the next reload.
+      §c全息排行榜文件删除失败。请尝试手动删除文件，否则全息排行榜将在下次重载服务器后被创建。
   hd_top_list_move:
     success: |-
-      §eHologram top list has moved to your location.
+      §e全息排行榜已移动到你所在位置。
   hd_top_list_set_race:
     success: |-
-      §eHologram top list changed race from §a<old_race> §eto §a<new_race>§e.
+      §e全息排行榜显示内容从§a<old_race>§e变更为§a<new_race>§e。
   hd_top_list_set_stat:
     success: |-
-      §eHologram top list changed stat type from §6<old_stat> §eto §6<new_stat>§e.
+      §e全息排行榜的数据类型从§6<old_stat>§e变更为§6<new_stat>§e。
   hd_top_list_set_laps:
     success: |-
-      §eHologram top list changed number of laps to §6<old_laps> §eto §6<new_laps>§e.
+      §e全息排行榜圈数从§6<old_laps>§e变更为§6<new_laps>§e。
   hd_top_list_list:
     header: |-
-      §elHologram top lists:
+      §el全息排行榜
     item: |-
       §6<top_list>
     item_info: |-
-      §f(§erace: §a<race>§r, §estat: §6<stat>§r§f)
+      §f(§e竞赛：§a<race>§r，§e数据：§6<stat>§r§f)
     teleport_click: |-
       /rc hdtoplist teleport <top_list>
     teleport_hover: |-
-      §l§bTeleport to the top list
+      §l§b传送到排行榜
 
 validators:
   race_not_found: §c找不到名为`<race_name>`的竞赛.
@@ -179,98 +179,98 @@ validators:
   checkpoint_already_exist: §c在竞赛`<race_name>`中的`<position>`已经有记录点了.
   startpoint_not_found: §找不到在竞赛`<race_name>`中`<position>`的起点.
   startpoint_already_exist: §c在竞赛`<race_name>`中`<position>`已经有起点了.
-  type_not_found: '§c没有这种竞赛类型:`<type>`.可用类型为: <types>.'
-  start_order_not_found: "§cThere is no start order called `<order>`. Possible orders: <orders>."
-  state_not_found: '§c没有这种状态:``<state>`. 可用状态为: <states>.'
-  song_not_found: §cT没有这首歌:``<song_name>`.
+  type_not_found: '§c没有这种竞赛类型:`<type>`。可用类型为: <types>。'
+  start_order_not_found: "§c没有名为`<order>`的出场顺序。 可用顺序有：<orders>。"
+  state_not_found: '§c没有这种状态:``<state>`。 可用状态为: <states>。'
+  song_not_found: §cT没有这首歌:``<song_name>`。
   validate_non_integer: |-
-    §c参数 `<argument>` 应为整数但插件只获取到 `<received>`.
+    §c参数 `<argument>` 应为整数但插件只获取到 `<received>`。
 
     用法:
     <help_text>
   validate_non_number: |-
-    §c参数 `<argument>` 应为数字但插件只获取到 `<received>`.
+    §c参数 `<argument>` 应为数字但插件只获取到 `<received>`。
 
     用法:
     <help_text>
   min_exceed: |-
-    §c参数 `<argument>`至少为 `<expected>` 但插件只获取到 `<received>`.
+    §c参数 `<argument>`至少为 `<expected>` 但插件只获取到 `<received>`。
 
     用法:
     <help_text>
   max_exceed: |-
-    §c参数 `<argument>` 最多只能为 `<expected>` 但插件只获取到 `<received>`.
+    §c参数 `<argument>` 最多只能为 `<expected>` 但插件只获取到 `<received>`。
 
     用法:
     <help_text>
   race_potion_effect_not_found: §c在竞赛`<race_name>`中没有名为`<potion_effect>`的药水效果.
   potion_effect_not_found: §c没有名为`<potion_effect>`的药水效果.
-  stat_type_not_found: "§cThere is no stat type with name `<stat_type>`. Possible values: <stat_types>"
-  hd_top_list_not_found: "§cThere is not hologram top list with name `<name>`."
+  stat_type_not_found: "§c没有名为`<stat_type>`的数据类型。可用数值有：<stat_types>"
+  hd_top_list_not_found: "§c没有名为`<name>`的全息排行榜。"
 
 race_canceled: §e玩家不足，竞赛取消.
-race_start_noshow_disqualified: §e<player_name>缺席竞赛，已取消竞赛资格.
-race_start_quit_disqualified: §e<player_name>离开了竞赛，已取消竞赛资格.
-race_start_gamemode_disqualified: "§e<player_name> is in a forbidden game mode and is now disqualified."
-race_start_gamemode_disqualified_target: "§eYou were disqualified since you are in a forbidden game mode."
-race_death_disqualified: "§e<player_name> died during the race and is now disqualified."
-race_death_disqualified_target: "§eYou died and is therefore disqualified. Better luck next time."
-edit_no_edit_mode: §c不在维护模式中你无法更改竞赛 `<race_name>`. 请输入 §7/rc setstate <race_name> under_construction§c将竞赛置入维护模式.
-race_participant_result: "§6#<position>. §e<player_name>用时<time>赢得了竞赛§a<race_name>§e."
+race_start_noshow_disqualified: §e<player_name>缺席竞赛，已取消竞赛资格。
+race_start_quit_disqualified: §e<player_name>离开了竞赛，已取消竞赛资格。
+race_start_gamemode_disqualified: "§e<player_name>由于使用了被禁用的游戏模式而被取消参赛资格。"
+race_start_gamemode_disqualified_target: "§e由于你使用了被禁用的游戏模式，你失去了参赛资格。"
+race_death_disqualified: "§e<player_name>在竞赛中死亡而失去了竞赛资格。"
+race_death_disqualified_target: "§e你死了，你输掉了竞赛。下次好运。"
+edit_no_edit_mode: §c不在维护模式中你无法更改竞赛 `<race_name>`。 请输入 §7/rc setstate <race_name> under_construction§c将竞赛置入维护模式.
+race_participant_result: "§6#<position>。 §e<player_name>用时<time>赢得了竞赛§a<race_name>§e。"
 race_participate_click_text: /rc join <race_name>
-race_participate_hover_text: 点击参加.
+race_participate_hover_text: 点击参加
 race_participate_text: |
   §e竞赛 §a<race_name>§e已经开启，将在<time_left>后正式开始.
-  圈数: <laps>
+  圈数：<laps>
   §6>> 点击参加 <<
 race_participate_text_fee: |
   §e竞赛 §a<race_name>§e已经开启，将在<time_left>后正式开始.
   圈数: <laps>
-  入场费: <entry_fee>
+  入场费：<entry_fee>
   §6>> 点击参加 <<
 race_participate_discord: |
   @everyone
-  Race **<race_name>** has been started and begins in **<time_left>**.
-  Laps: <laps>
-  Enter the server and write **/rc join <race_name>** to participate.
+  竞赛 **<race_name>** 已开始报名并将在**<time_left>**后开赛。
+  圈数：<laps>
+  进入服务器并输入 **/rc join <race_name>** 以参加。
 race_participate_discord_fee: |
   @everyone
-  Race **<race_name>** has been started and begins in **<time_left>**.
-  Laps: <laps>
-  Entry fee: <entry_fee>
-  Enter the server and write **/rc join <race_name>** to participate.
-race_participate_text_timeleft: §e离竞赛开始还剩下<time_left>.快输入§7/rc join <race_name>§e参加吧.
+  竞赛 **<race_name>** 已开始报名并将在**<time_left>**后开赛。
+  圈数：<laps>
+  入场费：<entry_fee>
+  进入服务器并输入 **/rc join <race_name>** 以参加。
+race_participate_text_timeleft: §e离竞赛开始还剩下<time_left>。快输入§7/rc join <race_name>§e参加吧.
 race_countdown_subtitle: 竞赛即将开始.
 race_next_lap_actionbar: §6第<ordinal>圈
 race_final_lap_actionbar: §6最后一圈
-race_type_respawn_start_info: "§eYou can punch the air with your hand to teleport back to the start point."
-race_type_respawn_last_info: "§eYou can punch the air with your hand to teleport back to the last checkpoint."
+race_type_respawn_start_info: "§e你可以空手点击空气来传回起点。"
+race_type_respawn_last_info: "§e你可以空手点击空气来传回到上一个记录点。"
 race_skipwait_hover_text: 点击直接开始
 race_skipwait_click_text: /rc skipwait <race_name>
 race_skipwait: §e[跳过等待]
 race_stop_hover_text: 点击停止比赛
 race_stop_click_text: /rc stop <race_name>
 race_stop: §e[停止比赛]
-race_sign_registered: "§eSign for race `<race_name>` has been registered."
-race_sign_unregistered: "§eSign for race `<race_name>` has been unregistered."
+race_sign_registered: "§e已注册`<race_name>`的告示牌。"
+race_sign_unregistered: "§e已取消注册`<race_name>`的告示牌。"
 race_sign_lines: |
   [Race]
   §a<race_name>
   §b<status>
-  <laps> Laps §l§8<current_participants>/<max_participants>
+  <laps>圈 §l§8<current_participants>/<max_participants>
 race_sign_fastest_lines: |
   [Race]
   §a<race_name>
   §bFastest
-  <laps> Laps
+  <laps>圈
 race_sign_stats_lines: |
   [Race]
   §a<race_name>
   §b<stat_name>
-race_sign_status_not_started: "§8§l• Not started •"
-race_sign_status_lobby: "§d§l• Lobby •"
-race_sign_status_in_game: "§4§l• In game •"
-race_blocked_cmd: "§c<command> is blocked during a race."
+race_sign_status_not_started: "§8§l• 未开始 •"
+race_sign_status_lobby: "§d§l• 大厅 •"
+race_sign_status_in_game: "§4§l• 游戏中 •"
+race_blocked_cmd: "§c<command>不能在竞赛时使用。"
 
 no_permission_command: §c你没有执行这个指令的权限.
 missing_arguments_command: |-
@@ -284,37 +284,37 @@ command_not_found: |-
   你可能想要输入:
   <suggestions>
 
-timeunit.second: "second"
-timeunit.seconds: "seconds"
-timeunit.minute: "minute"
-timeunit.minutes: "minutes"
-timeunit.hour: "hour"
-timeunit.hours: "hours"
-timeunit.day: "day"
-timeunit.days: "days"
-timeunit.now: "now"
+timeunit.second: "秒"
+timeunit.seconds: "秒"
+timeunit.minute: "分钟"
+timeunit.minutes: "分钟"
+timeunit.hour: "小时"
+timeunit.hours: "小时"
+timeunit.day: "天"
+timeunit.days: "天"
+timeunit.now: "现在"
 
-scoreboard.heading_format: "§b§l== <heading> (<laps> laps)=="
+scoreboard.heading_format: "§b§l== <heading> (<laps>圈)=="
 scoreboard.title_format: "§b<title>"
 scoreboard.text_format: "§f<text>"
-scoreboard.world_record: "Server record:"
-scoreboard.world_record_fastest_lap: "SR fastest lap:"
-scoreboard.personal_record: "Personal best:"
-scoreboard.time: "Time:"
-scoreboard.fastest_lap: "Fastest lap:"
-scoreboard.lap_tag: " Lap"
+scoreboard.world_record: "服务器纪录："
+scoreboard.world_record_fastest_lap: "全服最速圈速："
+scoreboard.personal_record: "个人最佳："
+scoreboard.time: "时间:"
+scoreboard.fastest_lap: "最速圈速："
+scoreboard.lap_tag: "圈"
 scoreboard.no_time_stats: "--:--.---"
 scoreboard.no_name_stats: "---------"
 
-lap.plural: "Laps"
-lap.singular: "Lap"
+lap.plural: "圈"
+lap.singular: "圈"
 
 hd_top_list.header: |-
   §a§l§n<race_name>
   §e§l<stat_type>
 hd_top_list.item: |-
-  §6<position>. §f<player_name> §7- §6<value>
+  §6<position>。 §f<player_name> §7- §6<value>
 hd_top_list.none: |-
-  §6<position>. §fn/a
+  §6<position>。 §fn/a
 hd_top_list.footer: |-
   §e§m-------------
