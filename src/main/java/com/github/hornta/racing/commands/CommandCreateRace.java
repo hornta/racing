@@ -46,6 +46,7 @@ public class CommandCreateRace extends RacingCommand implements ICommandHandler 
       Collections.emptySet(),
       1,
       0.25D,
+      0.0D,
       0.175D,
       0.225D,
       0.7D,

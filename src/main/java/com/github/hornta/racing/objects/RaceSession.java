@@ -363,6 +363,10 @@ public class RaceSession implements Listener {
                 long lapTime = currentTime - session.getLapStartTime();
                 scoreboardManager.updateRaceTime(player, raceTime);
                 scoreboardManager.updateRaceCurrentLapTime(player, lapTime);
+                //Elytra Speed Multiplier
+                if(player.isGliding() && (race.getType() == RaceType.ELYTRA) && (race.getElytraSpeed() != 0)) {
+                  player.setVelocity(player.getLocation().getDirection().multiply(race.getElytraSpeed())); //also you could set the speed here and have it defined in the race file
+                }
               }
             }
          }

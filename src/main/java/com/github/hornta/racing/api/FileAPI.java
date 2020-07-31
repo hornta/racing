@@ -7,6 +7,7 @@ import com.github.hornta.racing.api.migrations.EntryFeeMigrationRace;
 import com.github.hornta.racing.api.migrations.HorseAttributesMigrationRace;
 import com.github.hornta.racing.api.migrations.MinimumRequiredParticipantsToStartMigrationRace;
 import com.github.hornta.racing.api.migrations.PigSpeedMigrationRace;
+import com.github.hornta.racing.api.migrations.ElytraSpeedMigrationRace;
 import com.github.hornta.racing.api.migrations.PotionEffectsMigrationRace;
 import com.github.hornta.racing.api.migrations.RaceDurationMigrationRace;
 import com.github.hornta.racing.api.migrations.ResultsMigrationRace;
@@ -95,6 +96,7 @@ public class FileAPI implements RacingAPI {
   public static final String RESULTS_FIELD_RECORDS = "records";
   private static final String MINIMUM_REQUIRED_PARTICIPANTS_TO_START = "min_required_participants_to_start";
   private static final String PIG_SPEED_FIELD = "pig_speed";
+  private static final String ELYTRA_SPEED_FIELD = "elytra_speed";
   private static final String STRIDER_SPEED_FIELD = "strider_speed";
   private static final String HORSE_SPEED_FIELD = "horse_speed";
   private static final String HORSE_JUMP_STRENGTH_FIELD = "horse_jump_strength";
@@ -113,6 +115,7 @@ public class FileAPI implements RacingAPI {
     migrationManager.addMigration(new ResultsMigrationRace());
     migrationManager.addMigration(new MinimumRequiredParticipantsToStartMigrationRace());
     migrationManager.addMigration(new PigSpeedMigrationRace());
+    migrationManager.addMigration(new ElytraSpeedMigrationRace());
     migrationManager.addMigration(new HorseAttributesMigrationRace());
     migrationManager.addMigration(new CommandsMigrationRace());
     migrationManager.addMigration(new SignLapsMigrationRace());
@@ -217,6 +220,7 @@ public class FileAPI implements RacingAPI {
       writeResults(race.getResultByPlayerId().values(), yaml);
       yaml.set(MINIMUM_REQUIRED_PARTICIPANTS_TO_START, race.getMinimimRequiredParticipantsToStart());
       yaml.set(PIG_SPEED_FIELD, race.getPigSpeed());
+      yaml.set(ELYTRA_SPEED_FIELD, race.getElytraSpeed());
       yaml.set(STRIDER_SPEED_FIELD, race.getStriderSpeed());
       yaml.set(HORSE_SPEED_FIELD, race.getHorseSpeed());
       yaml.set(HORSE_JUMP_STRENGTH_FIELD, race.getHorseJumpStrength());
@@ -372,6 +376,13 @@ public class FileAPI implements RacingAPI {
       pigSpeed = yaml.getInt(PIG_SPEED_FIELD);
     }
 
+    double elytraSpeed;
+    if(yaml.isDouble(ELYTRA_SPEED_FIELD)) {
+      elytraSpeed = yaml.getDouble(ELYTRA_SPEED_FIELD);
+    } else {
+      elytraSpeed = yaml.getInt(ELYTRA_SPEED_FIELD);
+    }
+
     double striderSpeed;
     if(yaml.isDouble(STRIDER_SPEED_FIELD)) {
       striderSpeed = yaml.getDouble(STRIDER_SPEED_FIELD);
@@ -412,6 +423,7 @@ public class FileAPI implements RacingAPI {
       results,
       minimumRequiredParticipantsToStart,
       pigSpeed,
+      elytraSpeed,
       striderSpeed,
       horseSpeed,
       horseJumpStrength,

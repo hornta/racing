@@ -92,6 +92,8 @@ commands:
     success: §e行走速度已设置为<walk_speed>。
   race_set_pig_speed:
     success: "§e猪的移速已设置为<speed>。"
+  race_set_elytra_speed:
+    success: "§eElytra speed has been set to <speed>. To disable the speed multiplier, set the Elytra speed to 0."
   race_set_strider_speed:
     success: "§e炽足兽的移速已设置为<speed>。"
   race_set_horse_speed:

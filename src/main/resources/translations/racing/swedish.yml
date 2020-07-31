@@ -92,6 +92,8 @@ commands:
     success: "§eFörflyttningshastighet har satts till <walk_speed>."
   race_set_pig_speed:
     success: "§eFörflyttningshastighet för grisar har satts till <speed>."
+  race_set_elytra_speed:
+    success: "§eElytra speed has been set to <speed>. To disable the speed multiplier, set the Elytra speed to 0."
   race_set_strider_speed:
     success: "§eFörflyttningshastighet för striders har satts till <speed>."
   race_set_horse_speed:
