@@ -683,7 +683,10 @@ public class RaceSession implements Listener {
 
 	@EventHandler
 	void onVehicleExit(VehicleExitEvent event) {
-		if (!(event.getExited() instanceof Player)) return;
+		boolean isPlayer = event.getExited() instanceof Player;
+		if (!isPlayer) {
+			return;
+		}
 
 		if (state == RaceSessionState.PREPARING) {
 			return;

@@ -173,13 +173,13 @@ public class RacingPlugin extends JavaPlugin {
 		holographicDisplaysLoaded = Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays");
 		if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
 			{
-				@Nullable RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+				RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
 				if (rsp != null) {
 					vaultEconomy = rsp.getProvider();
 				}
 			}
 			{
-				@Nullable RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
+				RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
 				if (rsp != null) {
 					vaultChat = rsp.getProvider();
 				}
