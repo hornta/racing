@@ -18,7 +18,7 @@ public class RaceSessionResult {
 	}
 
 	public void addPlayerSessionResult(RacePlayerSession playerSession, long raceDuration, boolean completedRace) {
-		var result = new PlayerSessionResult(playerSession.getPlayer().getUniqueId(), raceDuration, playerSession.getCurrentLap(), playerSession.getCurrentCheckpoint(), completedRace, playerSession.getFastestLap());
+		PlayerSessionResult result = new PlayerSessionResult(playerSession.getPlayer().getUniqueId(), raceDuration, playerSession.getCurrentLap(), playerSession.getCurrentCheckpoint(), completedRace, playerSession.getFastestLap());
 		playerResults.put(playerSession.getPlayer().getUniqueId(), result);
 	}
 

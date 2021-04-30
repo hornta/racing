@@ -10,7 +10,7 @@ public enum RaceSignType {
 	INFO;
 
 	public static RaceSignType fromString(String string) {
-		for (var type : values()) {
+		for (RaceSignType type : values()) {
 			if (type.name().compareToIgnoreCase(string) == 0) {
 				return type;
 			}

@@ -17,6 +17,8 @@ import com.github.hornta.racing.events.RaceSessionStopEvent;
 import com.github.hornta.racing.events.SessionStateChangedEvent;
 import com.github.hornta.racing.events.UnloadRaceEvent;
 import com.github.hornta.racing.objects.Race;
+import com.github.hornta.racing.objects.RaceCheckpoint;
+import com.github.hornta.racing.objects.RaceSession;
 import com.github.hornta.racing.objects.RaceSign;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -38,6 +40,7 @@ import se.hornta.messenger.MessageManager;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -78,7 +81,7 @@ class SignManager implements Listener {
 
 	@EventHandler
 	void onLoadRace(LoadRaceEvent event) {
-		for (var sign : event.getRace().getSigns()) {
+		for (RaceSign sign : event.getRace().getSigns()) {
 			raceSigns.put(sign.getKey(), sign);
 			racesBySign.put(sign, event.getRace());
 		}
@@ -86,7 +89,7 @@ class SignManager implements Listener {
 
 	@EventHandler
 	void onUnloadRace(UnloadRaceEvent event) {
-		for (var sign : event.getRace().getSigns()) {
+		for (RaceSign sign : event.getRace().getSigns()) {
 			raceSigns.remove(sign.getKey());
 			racesBySign.remove(sign);
 		}
@@ -129,16 +132,16 @@ class SignManager implements Listener {
 
 	@EventHandler
 	void onSignChange(SignChangeEvent event) {
-		var race = racingManager.getRace(event.getLine(1));
+		Race race = racingManager.getRace(event.getLine(1));
 		if (race == null) {
 			return;
 		}
-		var creatingRaceSign = "race".equalsIgnoreCase(event.getLine(0)) && event.getPlayer().hasPermission(Permission.RACING_MODIFY.toString());
-		var type = RaceSignType.fromString(event.getLine(2).toUpperCase().replace(" ", "_"));
+		boolean creatingRaceSign = "race".equalsIgnoreCase(event.getLine(0)) && event.getPlayer().hasPermission(Permission.RACING_MODIFY.toString());
+		RaceSignType type = RaceSignType.fromString(event.getLine(2).toUpperCase().replace(" ", "_"));
 		if (!creatingRaceSign || type == null) {
 			return;
 		}
-		var laps = 1;
+		int laps = 1;
 		try {
 			laps = (event.getLine(3).isEmpty() ? 1 : Integer.parseInt(event.getLine(3)));
 		} catch (NumberFormatException e) {
@@ -148,7 +151,7 @@ class SignManager implements Listener {
 	}
 
 	private void addSign(Race race, Sign sign, Player player, Instant createdAt, int laps, RaceSignType type) {
-		var raceSign = new RaceSign(sign, player.getUniqueId(), createdAt, laps, type);
+		RaceSign raceSign = new RaceSign(sign, player.getUniqueId(), createdAt, laps, type);
 		race.getSigns().add(raceSign);
 		racingManager.updateRace(race, () -> {
 			raceSigns.put(raceSign.getKey(), raceSign);
@@ -161,8 +164,8 @@ class SignManager implements Listener {
 
 	@EventHandler
 	void onBlockPhysics(BlockPhysicsEvent event) {
-		var isSign = signPostMaterial.contains(event.getBlock().getType());
-		var isWallSign = wallSignMaterials.contains(event.getBlock().getType());
+		boolean isSign = signPostMaterial.contains(event.getBlock().getType());
+		boolean isWallSign = wallSignMaterials.contains(event.getBlock().getType());
 		if (!isSign && !isWallSign) {
 			return;
 		}
@@ -188,11 +191,11 @@ class SignManager implements Listener {
 	}
 
 	private void removeSign(BlockEvent event, Player player) {
-		var sign = getRaceSignFromBlock(event.getBlock());
+		RaceSign sign = getRaceSignFromBlock(event.getBlock());
 		if (sign == null) {
 			return;
 		}
-		var race = racesBySign.get(sign);
+		Race race = racesBySign.get(sign);
 		if (race == null) {
 			return;
 		}
@@ -214,12 +217,12 @@ class SignManager implements Listener {
 		if (event.getClickedBlock() == null || event.getAction() != Action.RIGHT_CLICK_BLOCK) {
 			return;
 		}
-		var sign = getRaceSignFromBlock(event.getClickedBlock());
+		RaceSign sign = getRaceSignFromBlock(event.getClickedBlock());
 		if (sign == null) {
 			return;
 		}
 		if (sign.getSignType() == RaceSignType.JOIN) {
-			var currentSession = racingManager.getParticipatingRace(event.getPlayer());
+			RaceSession currentSession = racingManager.getParticipatingRace(event.getPlayer());
 			if (currentSession == null) {
 				racingManager.joinRace(racesBySign.get(sign), event.getPlayer(), JoinType.SIGN, sign.getLaps());
 			} else {
@@ -228,9 +231,9 @@ class SignManager implements Listener {
 		} else if (sign.getSignType() == RaceSignType.INFO) {
 			CommandInfo.sendInfoMessage(event.getPlayer(), racesBySign.get(sign));
 		} else {
-			var race = racesBySign.get(sign);
+			Race race = racesBySign.get(sign);
 			if (race != null) {
-				var laps = sign.getLaps();
+				int laps = sign.getLaps();
 				RaceStatType statType;
 				switch (sign.getSignType()) {
 					case WINS:
@@ -266,14 +269,14 @@ class SignManager implements Listener {
 	}
 
 	private void updateSign(RaceSign sign) {
-		var race = racesBySign.get(sign);
+		Race race = racesBySign.get(sign);
 		MessageKey messageKey;
 		switch (sign.getSignType()) {
 			case JOIN:
-				var sessions = racingManager.getRaceSessions(race);
-				var session = sessions.isEmpty() ? null : sessions.get(0);
+				List<RaceSession> sessions = racingManager.getRaceSessions(race);
+				RaceSession session = sessions.isEmpty() ? null : sessions.get(0);
 				MessageKey statusKey;
-				var laps = sign.getLaps();
+				int laps = sign.getLaps();
 				if (session == null) {
 					statusKey = MessageKey.SIGN_NOT_STARTED;
 				} else if (session.getState() == RaceSessionState.PREPARING) {
@@ -304,12 +307,12 @@ class SignManager implements Listener {
 				break;
 		}
 		MessageManager.setValue("race_name", race.getName());
-		var contents = MessageManager.getMessage(messageKey).split("\n");
+		String[] contents = MessageManager.getMessage(messageKey).split("\n");
 		setSignLines(sign.getSign(), contents);
 	}
 
 	private void setSignLines(Sign sign, String[] lines) {
-		for (var i = 0; i < lines.length; ++i) {
+		for (int i = 0; i < lines.length; ++i) {
 			sign.setLine(i, lines[i]);
 		}
 		sign.update();

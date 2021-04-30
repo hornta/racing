@@ -75,18 +75,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
-import se.hornta.commando.CarbonArgument;
-import se.hornta.commando.CarbonArgumentType;
-import se.hornta.commando.CarbonCommand;
-import se.hornta.commando.Commando;
-import se.hornta.commando.ValidationResult;
-import se.hornta.commando.ValidationStatus;
-import se.hornta.messenger.MessageManager;
-import se.hornta.messenger.MessagesBuilder;
-import se.hornta.messenger.MessengerException;
-import se.hornta.messenger.Translations;
+import org.jetbrains.annotations.Nullable;
+import se.hornta.commando.*;
+import se.hornta.messenger.*;
 import se.hornta.versioned_config.Configuration;
 import se.hornta.versioned_config.ConfigurationBuilder;
 import se.hornta.versioned_config.ConfigurationException;
@@ -178,13 +173,13 @@ public class RacingPlugin extends JavaPlugin {
 		holographicDisplaysLoaded = Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays");
 		if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
 			{
-				var rsp = getServer().getServicesManager().getRegistration(Economy.class);
+				@Nullable RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
 				if (rsp != null) {
 					vaultEconomy = rsp.getProvider();
 				}
 			}
 			{
-				var rsp = getServer().getServicesManager().getRegistration(Chat.class);
+				@Nullable RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
 				if (rsp != null) {
 					vaultChat = rsp.getProvider();
 				}
@@ -227,10 +222,10 @@ public class RacingPlugin extends JavaPlugin {
 	}
 
 	private void setupConfig() throws ConfigurationException {
-		var cfgFile = new File(getDataFolder(), "config.yml");
-		var cb = new ConfigurationBuilder<ConfigKey>(cfgFile);
+		File cfgFile = new File(getDataFolder(), "config.yml");
+		ConfigurationBuilder<ConfigKey> cb = new ConfigurationBuilder<ConfigKey>(cfgFile);
 		cb.addMigration(new Migration<>(1, () -> {
-			var patch = new Patch<ConfigKey>();
+			Patch<ConfigKey> patch = new Patch<ConfigKey>();
 			patch.set(ConfigKey.LANGUAGE, "language", "english", Type.STRING);
 			// https://www.loc.gov/standards/iso639-2/php/code_list.php
 			patch.set(ConfigKey.LOCALE, "locale", "en", Type.STRING);
@@ -283,14 +278,14 @@ public class RacingPlugin extends JavaPlugin {
 			return patch;
 		}));
 		cb.addMigration(new Migration<>(2, () -> {
-			var patch = new Patch<ConfigKey>();
+			Patch<ConfigKey> patch = new Patch<ConfigKey>();
 			patch.set(ConfigKey.HD_TOP_LIST_DIRECTORY, "hd_top_list.directory", "hologram_toplists", Type.STRING);
 			patch.set(ConfigKey.HD_TOP_LIST_SHOW_HEADER, "hd_top_list.show_header", true, Type.BOOLEAN);
 			patch.set(ConfigKey.HD_TOP_LIST_SHOW_FOOTER, "hd_top_list.show_footer", false, Type.BOOLEAN);
 			return patch;
 		}));
 		cb.addMigration(new Migration<>(3, () -> {
-			var patch = new Patch<ConfigKey>();
+			Patch<ConfigKey> patch = new Patch<ConfigKey>();
 			patch.set(ConfigKey.BROADCAST_STOP_MESSAGE, "broadcast_stop_message", true, Type.BOOLEAN);
 			patch.set(ConfigKey.BROADCAST_PLAYER_JOIN_MESSAGE, "broadcast_player_join_message", true, Type.BOOLEAN);
 			patch.set(ConfigKey.BROADCAST_CANCEL_MESSAGE, "broadcast_cancel_message", true, Type.BOOLEAN);
@@ -299,18 +294,18 @@ public class RacingPlugin extends JavaPlugin {
 			return patch;
 		}));
 		cb.addMigration(new Migration<>(4, () -> {
-			var patch = new Patch<ConfigKey>();
+			Patch<ConfigKey> patch = new Patch<ConfigKey>();
 			patch.set(ConfigKey.PREVENT_JOIN_FROM_WORLD, "prevent_join_from_world", Collections.emptyList(), Type.LIST);
 			return patch;
 		}));
 		cb.addMigration(new Migration<>(5, () -> {
-			var patch = new Patch<ConfigKey>();
+			Patch<ConfigKey> patch = new Patch<ConfigKey>();
 			patch.set(ConfigKey.RESPAWN_STRIDER_DEATH, "respawn.strider.death", RespawnType.FROM_LAST_CHECKPOINT, Type.STRING);
 			patch.set(ConfigKey.RESPAWN_STRIDER_INTERACT, "respawn.strider.interact", RespawnType.NONE, Type.STRING);
 			return patch;
 		}));
 		cb.addMigration(new Migration<>(6, () -> {
-			var patch = new Patch<ConfigKey>();
+			Patch<ConfigKey> patch = new Patch<ConfigKey>();
 			patch.set(ConfigKey.TELEPORT_AFTER_RACE_ENABLED, "teleport_after_race.enabled", true, Type.BOOLEAN);
 			patch.set(ConfigKey.TELEPORT_AFTER_RACE_WHEN, "teleport_after_race.when", TeleportAfterRaceWhen.PARTICIPANT_FINISHES, Type.STRING);
 			return patch;
@@ -319,7 +314,7 @@ public class RacingPlugin extends JavaPlugin {
 	}
 
 	private void setupMessages() throws MessengerException {
-		var m = new MessagesBuilder();
+		MessagesBuilder m = new MessagesBuilder();
 		m.add(MessageKey.CREATE_RACE_SUCCESS, "commands.create_race.success");
 		m.add(MessageKey.CREATE_RACE_NAME_OCCUPIED, "commands.create_race.error_name_occupied");
 		m.add(MessageKey.DELETE_RACE_SUCCESS, "commands.delete_race.success");
@@ -496,10 +491,10 @@ public class RacingPlugin extends JavaPlugin {
 		m.add(MessageKey.HD_TOP_LIST_ITEM, "hd_top_list.item");
 		m.add(MessageKey.HD_TOP_LIST_NONE, "hd_top_list.none");
 		m.add(MessageKey.HD_TOP_LIST_FOOTER, "hd_top_list.footer");
-		var messageManager = m.build();
+		MessageManager messageManager = m.build();
 		translations = new Translations(this, messageManager);
 		String language = configuration.get(ConfigKey.LANGUAGE);
-		var translation = translations.createTranslation(language);
+		Translation translation = translations.createTranslation(language);
 		messageManager.setTranslation(translation);
 	}
 
@@ -559,15 +554,15 @@ public class RacingPlugin extends JavaPlugin {
 					break;
 			}
 		});
-		var raceArgument = new CarbonArgument.Builder("race").setHandler(new RaceArgumentHandler(racingManager, true)).create();
+		ICarbonArgument raceArgument = new CarbonArgument.Builder("race").setHandler(new RaceArgumentHandler(racingManager, true)).create();
 		commando.addCommand("racing create").withHandler(new CommandCreateRace(racingManager)).withArgument(new CarbonArgument.Builder("race").setHandler(new RaceArgumentHandler(racingManager, false)).showTabCompletion(false).create()).requiresPermission(Permission.COMMAND_CREATE.toString()).requiresPermission(Permission.RACING_MODIFY.toString()).preventConsoleCommandSender();
 		commando.addCommand("racing delete").withHandler(new CommandDeleteRace(racingManager)).withArgument(raceArgument).requiresPermission(Permission.COMMAND_DELETE.toString()).requiresPermission(Permission.RACING_MODIFY.toString());
 		commando.addCommand("racing list").withHandler(new CommandRaces(racingManager)).requiresPermission(Permission.COMMAND_LIST.toString()).requiresPermission(Permission.RACING_PLAYER.toString());
 		commando.addCommand("racing addcheckpoint").withHandler(new CommandAddCheckpoint(racingManager)).withArgument(raceArgument).withArgument(new CarbonArgument.Builder("position").setType(CarbonArgumentType.INTEGER).setMin(1).setDefaultValue(CommandSender.class, (CommandSender cs, String[] args) -> {
-			var race = racingManager.getRace(args[0]);
+			Race race = racingManager.getRace(args[0]);
 			return race.getCheckpoints().size() + 1;
 		}).dependsOn(raceArgument).create()).requiresPermission(Permission.COMMAND_ADD_CHECKPOINT.toString()).requiresPermission(Permission.RACING_MODIFY.toString()).preventConsoleCommandSender();
-		var checkpointArgument = new CarbonArgument.Builder("position").setHandler(new CheckpointArgumentHandler(racingManager, true)).dependsOn(raceArgument).create();
+		ICarbonArgument checkpointArgument = new CarbonArgument.Builder("position").setHandler(new CheckpointArgumentHandler(racingManager, true)).dependsOn(raceArgument).create();
 		commando.addCommand("racing deletecheckpoint").withHandler(new CommandDeleteCheckpoint(racingManager)).withArgument(raceArgument).withArgument(checkpointArgument).requiresPermission(Permission.COMMAND_DELETE_CHECKPOINT.toString()).requiresPermission(Permission.RACING_MODIFY.toString());
 		commando.addCommand("racing movecheckpoint").withHandler(new CommandMoveCheckpoint(racingManager)).withArgument(raceArgument).withArgument(checkpointArgument).requiresPermission(Permission.COMMAND_MOVE_CHECKPOINT.toString()).requiresPermission(Permission.RACING_MODIFY.toString()).preventConsoleCommandSender();
 		commando.addCommand("racing tpcheckpoint").withHandler(new CommandRaceTeleportPoint(racingManager)).withArgument(raceArgument).withArgument(checkpointArgument).requiresPermission(Permission.COMMAND_TELEPORT_CHECKPOINT.toString()).requiresPermission(Permission.RACING_MODIFY.toString()).preventConsoleCommandSender();
@@ -580,7 +575,7 @@ public class RacingPlugin extends JavaPlugin {
 		if (vaultEconomy != null) {
 			commando.addCommand("racing setentryfee").withHandler(new CommandSetEntryFee(racingManager)).withArgument(raceArgument).withArgument(new CarbonArgument.Builder("fee").setType(CarbonArgumentType.NUMBER).setMin(0).create()).requiresPermission(Permission.COMMAND_SET_ENTRY_FEE.toString()).requiresPermission(Permission.RACING_MODIFY.toString());
 		}
-		var speedArgument = new CarbonArgument.Builder("speed").setType(CarbonArgumentType.NUMBER).setMin(0).create();
+		ICarbonArgument speedArgument = new CarbonArgument.Builder("speed").setType(CarbonArgumentType.NUMBER).setMin(0).create();
 		commando.addCommand("racing setwalkspeed").withHandler(new CommandSetWalkSpeed(racingManager)).withArgument(raceArgument).withArgument(speedArgument).requiresPermission(Permission.COMMAND_SET_WALK_SPEED.toString()).requiresPermission(Permission.RACING_MODIFY.toString());
 		commando.addCommand("racing setpigspeed").withHandler(new CommandSetPigSpeed(racingManager)).withArgument(raceArgument).withArgument(speedArgument).requiresPermission(Permission.COMMAND_SET_PIG_SPEED.toString()).requiresPermission(Permission.RACING_MODIFY.toString());
 		commando.addCommand("racing setstriderspeed").withHandler(new CommandSetStriderSpeed(racingManager)).withArgument(raceArgument).withArgument(speedArgument).requiresPermission(Permission.COMMAND_SET_STRIDER_SPEED.toString()).requiresPermission(Permission.RACING_MODIFY.toString());
@@ -590,21 +585,21 @@ public class RacingPlugin extends JavaPlugin {
 		commando.addCommand("racing removepotioneffect").withHandler(new CommandRemovePotionEffect(racingManager)).withArgument(raceArgument).withArgument(new CarbonArgument.Builder("effect").setHandler(new RacePotionEffectArgumentHandler(racingManager)).dependsOn(raceArgument).create()).requiresPermission(Permission.COMMAND_REMOVE_POTION_EFFECT.toString()).requiresPermission(Permission.RACING_MODIFY.toString());
 		commando.addCommand("racing clearpotioneffects").withHandler(new CommandClearPotionEffects(racingManager)).withArgument(raceArgument).requiresPermission(Permission.COMMAND_CLEAR_POTION_EFFECTS.toString()).requiresPermission(Permission.RACING_MODIFY.toString());
 		commando.addCommand("racing addstartpoint").withHandler(new CommandAddStartPoint(racingManager)).withArgument(raceArgument).withArgument(new CarbonArgument.Builder("position").setType(CarbonArgumentType.INTEGER).setMin(1).setDefaultValue(CommandSender.class, (CommandSender cs, String[] args) -> {
-			var race = racingManager.getRace(args[0]);
+			Race race = racingManager.getRace(args[0]);
 			return race.getStartPoints().size() + 1;
 		}).dependsOn(raceArgument).create()).requiresPermission(Permission.COMMAND_ADD_STARTPOINT.toString()).requiresPermission(Permission.RACING_MODIFY.toString()).preventConsoleCommandSender();
-		var startPointArgument = new CarbonArgument.Builder("point").setHandler(new StartPointArgumentHandler(racingManager, true)).dependsOn(raceArgument).create();
+		ICarbonArgument startPointArgument = new CarbonArgument.Builder("point").setHandler(new StartPointArgumentHandler(racingManager, true)).dependsOn(raceArgument).create();
 		commando.addCommand("racing deletestartpoint").withHandler(new CommandDeleteStartPoint(racingManager)).withArgument(raceArgument).withArgument(startPointArgument).requiresPermission(Permission.COMMAND_DELETE_STARTPOINT.toString()).requiresPermission(Permission.RACING_MODIFY.toString());
 		commando.addCommand("racing movestartpoint").withHandler(new CommandMoveStartPoint(racingManager)).withArgument(raceArgument).withArgument(startPointArgument).requiresPermission(Permission.COMMAND_MOVE_STARTPOINT.toString()).requiresPermission(Permission.RACING_MODIFY.toString()).preventConsoleCommandSender();
 		commando.addCommand("racing tpstartpoint").withHandler(new CommandRaceTeleportStart(racingManager)).withArgument(raceArgument).withArgument(startPointArgument).requiresPermission(Permission.COMMAND_TELEPORT_STARTPOINT.toString()).requiresPermission(Permission.RACING_MODIFY.toString()).preventConsoleCommandSender();
 		if (noteBlockAPILoaded) {
-			var songArgument = new CarbonArgument.Builder("song").setHandler(new SongArgumentHandler()).create();
+			ICarbonArgument songArgument = new CarbonArgument.Builder("song").setHandler(new SongArgumentHandler()).create();
 			commando.addCommand("racing setsong").withHandler(new CommandSetSong(racingManager)).withArgument(raceArgument).withArgument(songArgument).requiresPermission(Permission.COMMAND_SET_SONG.toString()).requiresPermission(Permission.RACING_MODIFY.toString());
 			commando.addCommand("racing unsetsong").withHandler(new CommandUnsetSong(racingManager)).withArgument(raceArgument).requiresPermission(Permission.COMMAND_UNSET_SONG.toString()).requiresPermission(Permission.RACING_MODIFY.toString());
 			commando.addCommand("racing playsong").withHandler(new CommandPlaySong()).withArgument(songArgument).requiresPermission(Permission.COMMAND_PLAY_SONG.toString()).requiresPermission(Permission.RACING_MODIFY.toString()).preventConsoleCommandSender();
 			commando.addCommand("racing stopsong").withHandler(new CommandStopSong()).requiresPermission(Permission.COMMAND_STOP_SONG.toString()).requiresPermission(Permission.RACING_MODIFY.toString()).preventConsoleCommandSender();
 		}
-		var lapsArgument = new CarbonArgument.Builder("laps").setType(CarbonArgumentType.INTEGER).setDefaultValue(CommandSender.class, 1).setMin(1).create();
+		ICarbonArgument lapsArgument = new CarbonArgument.Builder("laps").setType(CarbonArgumentType.INTEGER).setDefaultValue(CommandSender.class, 1).setMin(1).create();
 		commando.addCommand("racing start").withHandler(new CommandStartRace(racingManager)).withArgument(raceArgument).withArgument(lapsArgument).requiresPermission(Permission.COMMAND_START.toString()).requiresPermission(Permission.RACING_MODERATOR.toString());
 		commando.addCommand("racing startrandom").withHandler(new CommandStartRace(racingManager)).withArgument(lapsArgument).requiresPermission(Permission.COMMAND_START_RANDOM.toString()).requiresPermission(Permission.RACING_MODERATOR.toString());
 		commando.addCommand("racing join").withHandler(new CommandJoinRace(racingManager)).withArgument(raceArgument).requiresPermission(Permission.COMMAND_JOIN.toString()).requiresPermission(Permission.RACING_PLAYER.toString()).preventConsoleCommandSender();
@@ -614,13 +609,13 @@ public class RacingPlugin extends JavaPlugin {
 		commando.addCommand("racing reload").withHandler(new CommandReload()).requiresPermission(Permission.COMMAND_RELOAD.toString()).requiresPermission(Permission.RACING_ADMIN.toString());
 		commando.addCommand("racing help").withHandler(new CommandHelp()).requiresPermission(Permission.COMMAND_HELP.toString()).requiresPermission(Permission.RACING_PLAYER.toString());
 		commando.addCommand("racing info").withArgument(raceArgument).withHandler(new CommandInfo(racingManager)).requiresPermission(Permission.COMMAND_INFO.toString()).requiresPermission(Permission.RACING_MODERATOR.toString());
-		var statArgument = new CarbonArgument.Builder("stat").setHandler(new RaceStatArgumentHandler()).create();
+		ICarbonArgument statArgument = new CarbonArgument.Builder("stat").setHandler(new RaceStatArgumentHandler()).create();
 		commando.addCommand("racing top").withArgument(raceArgument).withArgument(statArgument).withArgument(lapsArgument).withHandler(new CommandTop(racingManager)).requiresPermission(Permission.COMMAND_TOP.toString()).requiresPermission(Permission.RACING_PLAYER.toString());
 		commando.addCommand("racing resettop").withArgument(raceArgument).withHandler(new CommandResetTop(racingManager)).requiresPermission(Permission.COMMAND_RESET_TOP.toString()).requiresPermission(Permission.RACING_ADMIN.toString());
 		if (holographicDisplaysLoaded) {
-			var topListName = new CarbonArgument.Builder("name").setHandler(new TopListArgumentHandler(false)).create();
+			ICarbonArgument topListName = new CarbonArgument.Builder("name").setHandler(new TopListArgumentHandler(false)).create();
 			commando.addCommand("racing hdtoplist create").withHandler(new CommandCreateHDTopList()).withArgument(topListName).withArgument(raceArgument).withArgument(statArgument).withArgument(lapsArgument).requiresPermission(Permission.COMMAND_CREATE_HD_TOP_LIST.toString()).requiresPermission(Permission.RACING_MODIFY.toString()).preventConsoleCommandSender();
-			var topListArg = new CarbonArgument.Builder("toplist").setHandler(new TopListArgumentHandler(true)).create();
+			ICarbonArgument topListArg = new CarbonArgument.Builder("toplist").setHandler(new TopListArgumentHandler(true)).create();
 			commando.addCommand("racing hdtoplist delete").withHandler(new CommandDeleteHDTopList()).withArgument(topListArg).requiresPermission(Permission.COMMAND_DELETE_HD_TOP_LIST.toString()).requiresPermission(Permission.RACING_MODIFY.toString());
 			commando.addCommand("racing hdtoplist move").withHandler(new CommandMoveHDTopList()).withArgument(topListArg).requiresPermission(Permission.COMMAND_MOVE_HD_TOP_LIST.toString()).requiresPermission(Permission.RACING_MODIFY.toString()).preventConsoleCommandSender();
 			commando.addCommand("racing hdtoplist setrace").withHandler(new CommandSetRaceHDTopList()).withArgument(topListArg).withArgument(raceArgument).requiresPermission(Permission.COMMAND_SET_RACE_HD_TOP_LIST.toString()).requiresPermission(Permission.RACING_MODIFY.toString());
@@ -641,7 +636,7 @@ public class RacingPlugin extends JavaPlugin {
 		Listener discordManager = new DiscordManager();
 		getServer().getPluginManager().registerEvents(discordManager, this);
 		String storageTypeString = instance.configuration.get(ConfigKey.STORAGE);
-		var storageType = StorageType.valueOf(storageTypeString.toUpperCase(Locale.ENGLISH));
+		StorageType storageType = StorageType.valueOf(storageTypeString.toUpperCase(Locale.ENGLISH));
 		switch (storageType) {
 			case FILE:
 				racingManager.setAPI(new FileAPI(this));
@@ -659,7 +654,7 @@ public class RacingPlugin extends JavaPlugin {
 	}
 
 	private void initMcMMO() {
-		var plugin = getServer().getPluginManager().getPlugin("mcMMO");
+		Plugin plugin = getServer().getPluginManager().getPlugin("mcMMO");
 		if (!(plugin instanceof mcMMO)) {
 			return;
 		}

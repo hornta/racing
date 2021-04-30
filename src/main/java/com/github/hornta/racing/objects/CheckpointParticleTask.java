@@ -34,9 +34,9 @@ public class CheckpointParticleTask extends BukkitRunnable {
 
   @Override
   public void run() {
-    var players = checkpoint.getPlayers();
+    List<Player> players = checkpoint.getPlayers();
 
-    var isInside = false;
+    boolean isInside = false;
     if(isEditing) {
       for(Player player : Bukkit.getOnlinePlayers()) {
         if(checkpoint.isInside(player)) {
@@ -46,20 +46,20 @@ public class CheckpointParticleTask extends BukkitRunnable {
       }
     }
 
-    var dir = checkpoint.getLocation().getDirection();
+    Vector dir = checkpoint.getLocation().getDirection();
 
-    for(var i = 0; i < NUMBER_ORBS; ++i) {
-      var offset = i * ANGLE_OFFSET;
-      var angle = t + offset;
+    for(int i = 0; i < NUMBER_ORBS; ++i) {
+      double offset = i * ANGLE_OFFSET;
+      double angle = t + offset;
 
       // rotate dir by 90 degrees CW on the y-axis
-      var p = new Vector(-dir.getZ(), dir.getY(), dir.getX());
-      var c = p.crossProduct(dir);
-      var v = c.rotateAroundAxis(dir, angle).normalize().multiply(checkpoint.getRadius());
+      Vector p = new Vector(-dir.getZ(), dir.getY(), dir.getX());
+      Vector c = p.crossProduct(dir);
+      Vector v = c.rotateAroundAxis(dir, angle).normalize().multiply(checkpoint.getRadius());
 
-      var loc = checkpoint.getLocation().add(v);
+      Location loc = checkpoint.getLocation().add(v);
 
-      var particle = new WrapperPlayServerWorldParticles();
+      WrapperPlayServerWorldParticles particle = new WrapperPlayServerWorldParticles();
       particle.setNumberOfParticles(1);
       particle.setLongDistance(true);
       RGB rgb = null;
@@ -89,7 +89,7 @@ public class CheckpointParticleTask extends BukkitRunnable {
           }
         }
       } else {
-        for (var player : players) {
+        for (Player player : players) {
           if(player.getLocation().getWorld() == checkpoint.getLocation().getWorld()) {
             particle.sendPacket(player);
           }

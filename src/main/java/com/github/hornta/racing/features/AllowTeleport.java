@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 public class AllowTeleport implements Listener {
   @EventHandler
   void onPlayerTeleport(PlayerTeleportEvent event) {
-    var raceSession = RacingPlugin.getInstance().getRacingManager().getParticipatingRace(event.getPlayer());
+    RaceSession raceSession = RacingPlugin.getInstance().getRacingManager().getParticipatingRace(event.getPlayer());
     boolean allowPearlTeleport = RacingPlugin.getInstance().getConfiguration().get(ConfigKey.ALLOW_ENDER_PEARL_TP);
     boolean allowChorusTeleport = RacingPlugin.getInstance().getConfiguration().get(ConfigKey.ALLOW_CHORUS_FRUIT_TP);
 

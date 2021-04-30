@@ -183,7 +183,7 @@ public class RacePlayerSession {
 			RacingPlugin.debug("Making vehicle invulnerable");
 		}
 		Bukkit.getScheduler().scheduleSyncDelayedTask(RacingPlugin.getInstance(), () -> {
-			var playerTeleportLoc = location;
+			Location playerTeleportLoc = location;
 			if (vehicle instanceof Boat) {
 				playerTeleportLoc = playerTeleportLoc.clone().add(0, -0.45, 0);
 			}

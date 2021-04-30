@@ -11,14 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffectType;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Race implements Listener {
@@ -67,10 +60,10 @@ public class Race implements Listener {
 		this.striderSpeed = striderSpeed;
 		this.horseSpeed = horseSpeed;
 		this.horseJumpStrength = horseJumpStrength;
-		for (var playerStatistic : results) {
+		for (RacePlayerStatistic playerStatistic : results) {
 			resultByPlayerId.put(playerStatistic.getPlayerId(), playerStatistic);
 		}
-		for (var statType : RaceStatType.values()) {
+		for (RaceStatType statType : RaceStatType.values()) {
 			Set<RacePlayerStatistic> stats = new TreeSet<>((RacePlayerStatistic o1, RacePlayerStatistic o2) -> {
 				int order;
 				switch (statType) {
@@ -104,13 +97,13 @@ public class Race implements Listener {
 	}
 
 	public void addResult(RaceSessionResult raceResult) {
-		var completedPlayers = raceResult.getPlayerResults().values().stream().filter(PlayerSessionResult::hasCompletedRace).sorted(Comparator.comparingLong(PlayerSessionResult::getRaceDuration)).collect(Collectors.toList());
-		for (var playerResult : raceResult.getPlayerResults().values()) {
-			var playerStatistic = resultByPlayerId.get(playerResult.getPlayerId());
+		List<PlayerSessionResult> completedPlayers = raceResult.getPlayerResults().values().stream().filter(PlayerSessionResult::hasCompletedRace).sorted(Comparator.comparingLong(PlayerSessionResult::getRaceDuration)).collect(Collectors.toList());
+		for (PlayerSessionResult playerResult : raceResult.getPlayerResults().values()) {
+			RacePlayerStatistic playerStatistic = resultByPlayerId.get(playerResult.getPlayerId());
 			RacePlayerStatistic newStat;
-			var wasSingleRun = raceResult.getRaceSession().getNumJoinedParticipants() == 1;
-			var wonRace = completedPlayers.indexOf(playerResult) == 0;
-			var playerName = Bukkit.getOfflinePlayer(playerResult.getPlayerId()).getName();
+			boolean wasSingleRun = raceResult.getRaceSession().getNumJoinedParticipants() == 1;
+			boolean wonRace = completedPlayers.indexOf(playerResult) == 0;
+			String playerName = Bukkit.getOfflinePlayer(playerResult.getPlayerId()).getName();
 			if (playerStatistic == null) {
 				Map<Integer, Long> records = new HashMap<>();
 				records.put(playerResult.getLastLap(), playerResult.getRaceDuration());
@@ -128,14 +121,14 @@ public class Race implements Listener {
 				if (newStat.getFastestLap() > playerResult.getFastestLapDuration()) {
 					newStat.setFastestLap(playerResult.getFastestLapDuration());
 				}
-				var laps = playerResult.getLastLap();
+				int laps = playerResult.getLastLap();
 				if (newStat.getRecord(laps) > playerResult.getRaceDuration()) {
 					newStat.setRecord(laps, playerResult.getRaceDuration());
 				}
 			}
 			resultByPlayerId.put(newStat.getPlayerId(), newStat);
-			for (var statType : RaceStatType.values()) {
-				var resultSet = resultsByStat.get(statType);
+			for (RaceStatType statType : RaceStatType.values()) {
+				Set<RacePlayerStatistic> resultSet = resultsByStat.get(statType);
 				if (playerStatistic != null) {
 					resultSet.remove(playerStatistic);
 				}
@@ -146,7 +139,7 @@ public class Race implements Listener {
 
 	public void resetResults() {
 		resultByPlayerId.clear();
-		for (var statType : RaceStatType.values()) {
+		for (RaceStatType statType : RaceStatType.values()) {
 			resultsByStat.get(statType).clear();
 		}
 	}
@@ -160,7 +153,7 @@ public class Race implements Listener {
 
 	public Set<RacePlayerStatistic> getResultsForLapCount(int laps) {
 		Set<RacePlayerStatistic> stats = new TreeSet<>((RacePlayerStatistic o1, RacePlayerStatistic o2) -> {
-			var order = (int) (o1.getRecord(laps) - o2.getRecord(laps));
+			int order = (int) (o1.getRecord(laps) - o2.getRecord(laps));
 			if (order == 0) {
 				return o1.getPlayerId().compareTo(o2.getPlayerId());
 			} else {
@@ -190,7 +183,7 @@ public class Race implements Listener {
 	}
 
 	public void removePotionEffect(PotionEffectType type) {
-		var it = potionEffects.iterator();
+		Iterator<RacePotionEffect> it = potionEffects.iterator();
 		while (it.hasNext()) {
 			if (it.next().getType() == type) {
 				it.remove();
@@ -248,7 +241,7 @@ public class Race implements Listener {
 	}
 
 	public RaceCheckpoint getCheckpoint(int position) {
-		for (var checkpoint : checkpoints) {
+		for (RaceCheckpoint checkpoint : checkpoints) {
 			if (checkpoint.getPosition() == position) {
 				return checkpoint;
 			}
@@ -257,7 +250,7 @@ public class Race implements Listener {
 	}
 
 	public RaceCheckpoint getCheckpoint(Location location) {
-		for (var checkpoint : checkpoints) {
+		for (RaceCheckpoint checkpoint : checkpoints) {
 			if (checkpoint.getLocation().getBlockX() == location.getBlockX() && checkpoint.getLocation().getBlockY() == location.getBlockY() && checkpoint.getLocation().getBlockZ() == location.getBlockZ()) {
 				return checkpoint;
 			}
@@ -266,7 +259,7 @@ public class Race implements Listener {
 	}
 
 	public RaceStartPoint getStartPoint(int position) {
-		for (var startPoint : startPoints) {
+		for (RaceStartPoint startPoint : startPoints) {
 			if (startPoint.getPosition() == position) {
 				return startPoint;
 			}
@@ -275,7 +268,7 @@ public class Race implements Listener {
 	}
 
 	public RaceStartPoint getStartPoint(Location location) {
-		for (var startPoint : startPoints) {
+		for (RaceStartPoint startPoint : startPoints) {
 			if (startPoint.getLocation().getBlockX() == location.getBlockX() && startPoint.getLocation().getBlockY() == location.getBlockY() && startPoint.getLocation().getBlockZ() == location.getBlockZ()) {
 				return startPoint;
 			}

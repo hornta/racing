@@ -29,7 +29,7 @@ class RaceCountdown {
 					callback.run();
 					return;
 				}
-				for (var session : playerSessions) {
+				for (RacePlayerSession session : playerSessions) {
 					// show the title for a tick longer to prevent blinking between titles
 					session.getPlayer().sendTitle(String.valueOf(countdown), MessageManager.getMessage(MessageKey.RACE_COUNTDOWN), 0, ONE_SECOND + 1, 0);
 				}
